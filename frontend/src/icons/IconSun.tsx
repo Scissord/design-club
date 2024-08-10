@@ -2,14 +2,14 @@ export function IconSun(props: any) {
   return (
 		<svg
 			viewBox="0 0 512 512"
-			fill="#e5e5e5"
-			height="1.5em"
-			width="1.5em"
+			fill="#1e1b4b"
+			height="1.4em"
+			width="1.4em"
 			{...props}
 		>
 			<path
 				fill="none"
-				stroke="#e5e5e5"
+				stroke="#1e1b4b"
 				strokeLinecap="round"
 				strokeMiterlimit={10}
 				strokeWidth={32}
@@ -17,7 +17,7 @@ export function IconSun(props: any) {
 			/>
 			<path
 				fill="none"
-				stroke="#e5e5e5"
+				stroke="#1e1b4b"
 				strokeLinecap="round"
 				strokeMiterlimit={10}
 				strokeWidth={32}

@@ -17,8 +17,15 @@
 // color="gray"
 
 import FeatherIcon from "feather-icons-react"
-import { IIcon } from "@interfaces"
 import { FC } from "react"
+
+export interface IIcon {
+  icon: string;
+  size?: string | number;
+  className?: string;
+  color?: string;
+  strokeWidth?: string | number;
+}
 
 export const Icon: FC<IIcon> = (props) => {
   return (

@@ -1,10 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Icon } from '@ui';
 
-export function Search(props) {
+interface ISearch {
+  value: string;
+  onChange: (value: string) => void;
+  throttle?: number;
+  placeholder?: string;
+  className?: string;
+  loading?: boolean;
+  disabled?: boolean;
+}
+
+export function Search(props: ISearch) {
 
   const [value, setValue] = useState(props.value || '');
   const [typing, setTyping] = useState(false);
+  // const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     // throttle typing
@@ -23,8 +34,12 @@ export function Search(props) {
   }, [props.throttle, typing]);
 
   useEffect(() => {
-    let throttle = props.throttle ?? 100;
-    if (throttle && !typing) props.onChange(value);
+    //  if (isMounted) {
+      let throttle = props.throttle ?? 100;
+      if (throttle && !typing) props.onChange(value);
+    // } else {
+    //   setIsMounted(true);
+    // }
   }, [typing, value]);
 
   return (
@@ -36,21 +51,21 @@ export function Search(props) {
         type="text"
         value={value}
         placeholder={props.placeholder ?? 'Поиск...'}
+        disabled={props.disabled}
         onChange={(e) => setValue(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && setValue(e.target.value)}
-        className={`pl-[54px] outline-none h-full w-full 
-          bg-transparent border-none text-body-color bg-no-repeat 
-          bg-[length:16px] bg-[25px_48%] font-body-font 
+        className={`pl-[54px] outline-none h-full w-full
+          bg-transparent border-none text-body-color bg-no-repeat
+          bg-[length:16px] bg-[25px_48%] font-body-font
           font-semibold text-[15px] placeholder-input-chat-color
         `}
       />
 
-      {props.isSearchLoading && 
+      {props.loading &&
         <div className='absolute right-5'>
-          <Icon 
-            icon={'loader'} 
-            size={18} 
-            className={'animate-spin'} 
+          <Icon
+            icon={'loader'}
+            size={18}
+            className={'animate-spin'}
             color="gray"
           />
         </div>

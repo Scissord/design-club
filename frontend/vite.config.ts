@@ -1,9 +1,11 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react'
 import path from 'path';
 
 export default defineConfig({
   plugins: [
+    // react(),
     reactRefresh(),
   ],
   css: {
@@ -22,12 +24,16 @@ export default defineConfig({
       "@ui": path.resolve(__dirname, 'src/ui/lib'),
       "@icons": path.resolve(__dirname, 'src/icons/lib'),
       "@interfaces": path.resolve(__dirname, 'src/interfaces/lib'),
-      "@utils": path.resolve(__dirname, 'src/utils'),
+      "@utils": path.resolve(__dirname, 'src/utils/lib'),
       "@routes": path.resolve(__dirname, 'src/routes/routes'),
       "@layout": path.resolve(__dirname, 'src/layouts/lib'),
       "@types": path.resolve(__dirname, 'src/types/lib'),
       "@store": path.resolve(__dirname, 'src/store'),
       "@context": path.resolve(__dirname, 'src/context/lib'),
+      "@validation": path.resolve(__dirname, 'src/validation/lib'),
     },
+  },
+  define: {
+    "process.env": {},
   }
 });

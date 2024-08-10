@@ -35,12 +35,14 @@
       "@ui": ["ui/lib"],
       "@icons": ["icons/lib"],
       "@interfaces": ["interfaces/lib"],
-      "@utils/*": ["utils/*"],
+      // "@utils/*": ["utils/*"],
       "@routes": ["routes/routes"],
       "@layout": ["layouts/lib"],
       "@types": ["types/lib"],
       "@store/*": ["store/*"],
       "@context": ["context/lib"],
+      "@utils": ["utils/lib"],
+      "@validation": ["validation/lib"],
     }
   },
   "include": [

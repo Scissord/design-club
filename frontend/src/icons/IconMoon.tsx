@@ -2,14 +2,14 @@ export function IconMoon(props: any) {
   return (
     <svg
       viewBox="0 0 512 512"
-      fill="#1e1b4b"
-			height="1.5em"
-			width="1.5em"
+      fill="white"
+			height="1.4em"
+			width="1.4em"
       {...props}
     >
       <path
         fill="none"
-        stroke="#1e1b4b"
+        stroke="white"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={32}

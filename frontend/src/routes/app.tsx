@@ -3,6 +3,7 @@ import { CW } from '@components';
 import { IRoute } from '@interfaces';
 
 const HomePage = lazy(() => import('@pages/Home'));
+const UserPage = lazy(() => import('@pages/User'));
 const ArticlesPage = lazy(() => import('@pages/Articles'));
 const ProductsPage = lazy(() => import('@pages/Products'));
 const StoragePage = lazy(() => import('@pages/Storage'));
@@ -14,6 +15,12 @@ const AppRoutes: IRoute[] = [
 		layout: "app",
 		title: "Home",
 	},
+  {
+    path: "/users/:id",
+		element: CW(UserPage),
+		layout: "app",
+		title: "User",
+  },
   {
 		path: "/articles",
 		element: CW(ArticlesPage),
@@ -32,12 +39,6 @@ const AppRoutes: IRoute[] = [
 		layout: "app",
 		title: "Storage",
 	},
-  // {
-	// 	path: "/library",
-	// 	element: CW(LibraryPage),
-	// 	layout: "app",
-	// 	title: "Library",
-	// },
 ]
 
 

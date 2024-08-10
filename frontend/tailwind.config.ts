@@ -1,4 +1,5 @@
 import { Config } from 'tailwindcss';
+import daysyui from 'daisyui';
 
 const config: Config = {
   content: [
@@ -9,12 +10,14 @@ const config: Config = {
     extend: {
       colors: {
         'primary': '#B968C7',
-        'rainy': '#A6ADBB', 
+        'rainy': '#A6ADBB',
+        'column': '#f8f8f8',
+        'card': '#ffffff',
       },
     },
   },
   // eslint-disable-next-line no-undef
-  plugins: [require("daisyui")],
+  plugins: [daysyui],
   darkMode: "class",
 }
 

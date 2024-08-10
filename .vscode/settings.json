@@ -36,10 +36,13 @@
     "@tailwind",
     "Instatus",
     "Scissxrd",
+    "Signup",
     "tailwindcss",
     "Артикулы",
+    "Главная",
     "Номенклатура",
-    "свечение"
+    "свечение",
+    "Склад"
   ],
   "[typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"

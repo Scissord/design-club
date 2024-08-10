@@ -3,16 +3,19 @@ import { useDeleteProductMutation } from '@store/api/productsApi';
 import { IProduct } from '@interfaces';
 import { productsHeaders } from '@constants';
 import { IconTrash } from '@icons';
+import { DateFormat } from '@utils';
 
 type ProductsTopSectionProps = {
-  data: IProduct[];
+  products: IProduct[];
+  lastPage: number;
   page: number;
   setPage: (page: number | ((prevPage: number) => number)) => void;
 }
 
 const ProductsTableSection: FC<ProductsTopSectionProps> = (props) => {
   const {
-    data, page, setPage
+    products, lastPage,
+    page, setPage
   } = props;
 
   const [iconsIndex, setIconsIndex] = useState<number | null>(null);
@@ -45,7 +48,7 @@ const ProductsTableSection: FC<ProductsTopSectionProps> = (props) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((product, index) => (
+          {products?.map((product, index) => (
             <tr
               key={product.id}
               className={`
@@ -66,7 +69,7 @@ const ProductsTableSection: FC<ProductsTopSectionProps> = (props) => {
               <td>{product.job}</td>
               <td>{product.company}</td>
               <td>{product.location}</td>
-              <td>{product.lastLogin}</td>
+              <td>{DateFormat(product.lastLogin, 'H:i d.m.Y')}</td>
               <td className='flex items-center justify-between'>
                 {product.favoriteColor}
                 {iconsIndex === index && (
@@ -75,7 +78,7 @@ const ProductsTableSection: FC<ProductsTopSectionProps> = (props) => {
                       onClick={() => handleDeleteProduct(product.id)}
                       className='cursor-pointer'
                     >
-                      <IconTrash/>
+                      <IconTrash width="1.3em" height="1.3em"/>
                     </div>
                   </div>
                 )}
@@ -115,7 +118,12 @@ const ProductsTableSection: FC<ProductsTopSectionProps> = (props) => {
         </button>
         <button className="join-item btn">Page {page}</button>
         <button
-          onClick={() => setPage((prev: number) => prev + 1)}
+          onClick={() => setPage((prev) => {
+            if (prev < lastPage) {
+              return prev + 1;
+            }
+            return prev;
+          })}
           className="join-item btn"
         >
           »

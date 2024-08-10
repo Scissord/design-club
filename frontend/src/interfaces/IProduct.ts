@@ -1,5 +1,5 @@
 export type IProduct = {
-  id: string | number;
+  id: number;
   name: string;
   job: string;
   company: string;

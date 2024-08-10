@@ -1,8 +1,8 @@
-import { FC, useContext, useState } from 'react';
-import {
-  useAddProductMutation,
-} from '@store/api/productsApi';
+import { FC, useContext, useEffect, useState } from 'react';
+import { useAddProductMutation } from '@store/api/productsApi';
 import { ViewContext } from '@context';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const DEFAULT_NEW_PRODUCT = {
   name: '',
@@ -10,6 +10,7 @@ const DEFAULT_NEW_PRODUCT = {
   company: '',
   location: '',
   favoriteColor: '',
+  lastLogin: new Date(),
 }
 
 const AddProduct: FC = () => {
@@ -33,59 +34,87 @@ const AddProduct: FC = () => {
   };
 
   return (
-    <div className='flex flex-col gap-3 py-3'>
-      <div className='flex items-center gap-3'>
-      <p className='font-bold text-[18px] w-40'>Name</p>
-      <input
-        value={newProduct.name}
-        onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-        type="text"
-        placeholder="Type here"
-        className="input input-bordered input-secondary w-full max-w-xs"
-      />
+    <div className='grid grid-cols-3 gap-3 w-full py-6'>
+      <div className='col-span-1'>
+        <p className='font-bold text-[18px]'>lastLogin</p>
       </div>
-      <div className='flex items-center gap-3'>
-      <p className='font-bold text-[18px] w-40'>Job</p>
-      <input
-        value={newProduct.job}
-        onChange={(e) => setNewProduct({ ...newProduct, job: e.target.value })}
-        type="text"
-        placeholder="Type here"
-        className="input input-bordered input-secondary w-full max-w-xs"
-      />
-      </div>
-      <div className='flex items-center gap-3'>
-      <p className='font-bold text-[18px] w-40'>Company</p>
-      <input
-        value={newProduct.company}
-        onChange={(e) => setNewProduct({ ...newProduct, company: e.target.value })}
-        type="text"
-        placeholder="Type here"
-        className="input input-bordered input-secondary w-full max-w-xs"
-      />
-      </div>
-      <div className='flex items-center gap-3'>
-      <p className='font-bold text-[18px] w-40'>Location</p>
-      <input
-        value={newProduct.location}
-        onChange={(e) => setNewProduct({ ...newProduct, location: e.target.value })}
-        type="text"
-        placeholder="Type here"
-        className="input input-bordered input-secondary w-full max-w-xs"
-      />
-      </div>
-      <div className='flex items-center gap-3'>
-      <p className='font-bold text-[18px] w-40'>Favorite Color</p>
-      <input
-        value={newProduct.favoriteColor}
-        onChange={(e) => setNewProduct({ ...newProduct, favoriteColor: e.target.value })}
-        type="text"
-        placeholder="Type here"
-        className="input input-bordered input-secondary w-full max-w-xs"
-      />
+      <div className='col-span-2'>
+        <DatePicker
+          selected={newProduct.lastLogin}
+          className='input input-bordered input-secondary'
+          onChange={(date) => {
+            date && setNewProduct({ ...newProduct, lastLogin: date });
+          }}
+        />
       </div>
 
-      <div className='flex items-center gap-3 ml-auto mt-6'>
+      <div className='col-span-1'>
+        <p className='font-bold text-[18px]'>Name</p>
+      </div>
+      <div className='col-span-2'>
+        <input
+          value={newProduct.name}
+          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered input-secondary w-full"
+        />
+      </div>
+
+      <div className='col-span-1'>
+        <p className='font-bold text-[18px]'>Job</p>
+      </div>
+      <div className='col-span-2'>
+        <input
+          value={newProduct.job}
+          onChange={(e) => setNewProduct({ ...newProduct, job: e.target.value })}
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered input-secondary w-full"
+        />
+      </div>
+
+      <div className='col-span-1'>
+        <p className='font-bold text-[18px]'>Company</p>
+      </div>
+      <div className='col-span-2'>
+        <input
+          value={newProduct.company}
+          onChange={(e) => setNewProduct({ ...newProduct, company: e.target.value })}
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered input-secondary w-full"
+        />
+      </div>
+
+      <div className='col-span-1'>
+        <p className='font-bold text-[18px]'>Location</p>
+      </div>
+      <div className='col-span-2'>
+        <input
+          value={newProduct.location}
+          onChange={(e) => setNewProduct({ ...newProduct, location: e.target.value })}
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered input-secondary w-full"
+        />
+      </div>
+
+      <div className='col-span-1'>
+        <p className='font-bold text-[18px]'>Favorite Color</p>
+      </div>
+      <div className='col-span-2'>
+        <input
+          value={newProduct.favoriteColor}
+          onChange={(e) => setNewProduct({ ...newProduct, favoriteColor: e.target.value })}
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered input-secondary w-full"
+        />
+      </div>
+
+
+      <div className='col-span-3 flex items-center gap-3 ml-auto mt-6'>
         <button
           onClick={() => handleCreateProduct()}
           className="btn btn-success text-white"

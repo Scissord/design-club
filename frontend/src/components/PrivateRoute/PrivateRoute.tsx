@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
+import { parseJson } from '@utils';
 
 type PrivateRouteTypes = {
   children: ReactNode
@@ -8,13 +9,15 @@ type PrivateRouteTypes = {
 export const PrivateRoute = (props: PrivateRouteTypes) => {
   const { children } = props;
 
-  const user = JSON.parse(localStorage.getItem("user") ?? '{}');
+  // Получение данных из localStorage
+  const userString = localStorage.getItem("user");
+  const accessToken = localStorage.getItem("accessToken");
 
-  if (user?.token){
-    // if (permissions[user.permission][props.permission]){
-    //   // user is good
-      return children;
-    // }
+  // Парсинг данных
+  const user = parseJson(userString);
+
+  if (user && accessToken) {
+    return children;
   }
 
   // user is not authenticated

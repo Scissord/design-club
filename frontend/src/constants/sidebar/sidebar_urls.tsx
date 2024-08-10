@@ -1,6 +1,11 @@
-import { IconArticle, IconProduct, IconStorage } from "@icons";
+import { IconHome, IconArticle, IconProduct, IconStorage } from "@icons";
 
 export const sidebar_urls = [
+  {
+    icon: <IconHome/>,
+    label: 'Главная',
+    path: '/'
+  },
   {
     icon: <IconArticle/>,
     label: 'Артикулы',
@@ -16,4 +21,5 @@ export const sidebar_urls = [
     label: 'Склад',
     path: '/storage'
   },
+
 ]

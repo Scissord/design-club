@@ -3,8 +3,8 @@ export function IconTrash(props: any) {
 		<svg
       viewBox="0 0 512 512"
       fill="red"
-      height="1.5em"
-      width="1.5em"
+      height={props.height ?? "1.4em"}
+      width={props.width ?? "1.4em"}
       {...props}
     >
       <path

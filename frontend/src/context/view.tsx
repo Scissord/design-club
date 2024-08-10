@@ -4,7 +4,6 @@ import { AppLayout, AuthLayout } from "@layout";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Define the shape of the context data
 interface ModalContent {
   title: string;
   children: ReactNode;
@@ -41,31 +40,45 @@ interface ViewProps {
 // auth context
 export const ViewContext = createContext<ViewContextProps | null>(null);
 
+const defaultNotification: NotificationState = {
+  show: false,
+  message: "",
+  type: "success"
+};
+
+const defaultModal: ModalState = {
+  id: 'my_modal',
+  show: false,
+  title: "",
+  children: null
+};
+
 export const View: FC<ViewProps> = ({ title, layout, display }) => {
-  const [modal, setModal] = useState<ModalState>({ id: 'my_modal', show: false, title: "", children: null  });
-  const [notification, setNotification] = useState<NotificationState>({ show: false, message: "", type: "success" });
+  const [modal, setModal] = useState<ModalState>(defaultModal);
+  const [notification, setNotification] = useState<NotificationState>(defaultNotification);
 
   const showNotification = (message: string, type: "info" | "success" | "warning" | "error") => {
     setNotification({ show: true, message, type });
-    toast[type](`${message}`)
+    toast[type](`${message}`, {
+      onClose: () => hideNotification(),
+    })
   };
 
-  function showModal(content: ModalContent) {
+  const hideNotification = () => {
+    setNotification(defaultNotification);
+  };
+
+  const showModal = (content: ModalContent) => {
     setModal({
       id: 'my_modal',
       show: true,
       title: content.title,
       children: content.children
-    })
+    });
   };
 
-  function hideModal() {
-    setModal({
-      id: 'my_modal',
-      show: false,
-      title: "",
-      children: null
-    })
+  const hideModal = () => {
+    setModal(defaultModal);
   };
 
   const data = {
@@ -93,7 +106,6 @@ export const View: FC<ViewProps> = ({ title, layout, display }) => {
   return (
     <ViewContext.Provider value={{ ...data }}>
       {notification.show && <Toaster />}
-
       {modal.show && <Modal {...modal} />}
 
       <Layout>

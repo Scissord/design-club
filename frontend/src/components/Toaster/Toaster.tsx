@@ -1,5 +1,5 @@
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Toaster = () => {
   return (
@@ -15,5 +15,5 @@ export const Toaster = () => {
       pauseOnHover
       theme={"light"}
     />
-  )
-}
+  );
+};

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import productRoutes from './routes/productRoute.js';
+import apiRoutes from './routes/index.js';
 
 import printName from "./helpers/printName.js";
 
@@ -14,10 +14,13 @@ const PORT = process.env.PORT || 8080;
 dotenv.config();
 
 app.use(express.json());
-app.use(cookieParser()); // middleware
-app.use(cors({ origin: '*' }));
+app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
 
-app.use('/api/products', productRoutes);
+app.use('/api', apiRoutes);
 
 app.listen(PORT, () => {
 	printName();

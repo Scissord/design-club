@@ -1,11 +1,11 @@
 import Axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ErrorLayout } from "@layout";
-import { AuthRoute, PrivateRoute } from '@components';
+import { PrivateRoute } from '@components';
 import { NotFound } from '@pages/NotFound';
 import { View } from '@context';
 import { EnvironmentSettings } from '@types';
-import Settings from '@utils/settings.json';
+// import Settings from '@utils/settings.json';
 import routes from '@routes';
 
 function App() {
@@ -33,13 +33,11 @@ function App() {
                   />
                 </PrivateRoute>
               ) : route.layout === 'auth' && (
-                <AuthRoute>
-                  <View
-                    title={route.title}
-                    layout={route.layout}
-                    display={route.element}
-                  />
-                </AuthRoute>
+                <View
+                  title={route.title}
+                  layout={route.layout}
+                  display={route.element}
+                />
               )
             }
           />

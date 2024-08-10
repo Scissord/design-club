@@ -1,31 +1,37 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IProduct } from '@interfaces';
+import baseQueryWithReAuth from '@store/middleware/authMiddleware';
 
 interface GetProductsQueryParams {
-  limit?: string;
+  limit?: number;
   page?: number;
   search?: string;
 }
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8080/api' }),
+  baseQuery: baseQueryWithReAuth,
   tagTypes: ['Products'],
   endpoints: (build) => ({
     getProducts: build.query({
-      query: ({ limit = "20", page = 1, search = "" }: GetProductsQueryParams) => {
+      query: ({ limit = 10, page = 1, search = "" }: GetProductsQueryParams) => {
         const params = new URLSearchParams();
-        if (limit) params.append('limit', limit);
+        if (limit) params.append('limit', limit.toString());
         if (page) params.append('page', page.toString());
         if (search) params.append('search', search);
 
         return `/products?${params.toString()}`;
       },
-      providesTags: (result) => result
-        ? [
-          ...result.map(({ id }: { id: string }) => ({ type: 'Products', id })),
-          { type: 'Products', id: 'LIST' }
-        ]
-        : [{ type: 'Products', id: 'LIST' }],
+      providesTags: (result) => {
+        if (result.products) {
+          return [
+            ...result?.products.map(({ id }: IProduct) => ({ type: 'Products', id })),
+            { type: 'Products', id: 'LIST' }
+          ]
+        } else {
+          return [{ type: 'Products', id: 'LIST' }];
+        }
+      },
     }),
     addProduct: build.mutation({
       query: (body) => ({

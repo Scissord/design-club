@@ -1,44 +1,54 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLoginMutation } from "@store/api/authApi";
-import { useNavigate } from "@hooks";
+import { useAppDispatch, useNavigate } from "@hooks";
+import { setUser, setAccessToken } from "@store/reducers/authSlice";
+import { ViewContext } from "@context";
 
 const css = {
-  container: `flex w-[80%] lg:w-[60%] h-[80vh] lg:h-[70vh] border border-gray-300 
-              dark:border-neutral-200 rounded-xl shadow-2xl 
+  container: `flex w-[80%] lg:w-[60%] h-[80vh] lg:h-[70vh] border border-gray-300
+              dark:border-neutral-200 rounded-xl shadow-2xl
               shadow-neutral-400 dark:shadow-none`,
-  left_section: `hidden xl:flex items-center justify-center w-1/2 
-                border-r border-gray-300 dark:border-neutral-200 
+  left_section: `hidden xl:flex items-center justify-center w-1/2
+                border-r border-gray-300 dark:border-neutral-200
                 h-full rounded-xl`,
-  right_section: `w-full xl:w-1/2 h-full flex flex-col items-center 
+  right_section: `w-full xl:w-1/2 h-full flex flex-col items-center
                   justify-between py-6 lg:py-12`,
 }
 
+interface SignupError {
+  data?: {
+    error: string;
+  };
+  message?: string;
+};
+
 const SignIn: FC = () => {
+  const context = useContext(ViewContext);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const [name, setName] = useState("John");
-  const [password, setPassword] = useState("12345678");
+  const [name, setName] = useState("scissxrd");
+  const [password, setPassword] = useState("Surgood123#");
 
-  const [login, { isError }] = useLoginMutation();
+  const [login, { isError, isLoading }] = useLoginMutation();
 
   const handleLogin = async () => {
-    localStorage.setItem("user", JSON.stringify({
-      id: 1,
-      name: 'John',
-      token: 'd502ae4d-e74c-4832-bb39-9d109a0d3b78'
-    }) ?? {})
-    navigate('/')
-    // if(name.length > 3 && password.length > 5) {
-    //   try {
-    //     const user = await login({ name, password }).unwrap();
-    //     console.log(user);
-    //   } catch (error) {
-    //     console.error('Failed to login:', error);
-    //   }
-    // }
+    try {
+      const user = await login({ name, password }).unwrap();
+      dispatch(setUser(user.user));
+      dispatch(setAccessToken(user.accessToken));
+      navigate("/");
+      // reset();
+    } catch (error) {
+      console.error('Failed to login:', error);
+      const typedError = error as SignupError;
+      console.error("Login failed:", typedError);
+      console.error("Login failed:", error);
+      context?.notification.show(typedError?.data?.error || typedError.message || 'An error occurred', 'error');
+    }
   };
- 
+
   return (
     <div className={css.container}>
       <section className={css.left_section}>
@@ -58,10 +68,10 @@ const SignIn: FC = () => {
               <path
                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
             </svg>
-            <input 
-              type="text" 
-              className="grow w-full" 
-              placeholder="Username" 
+            <input
+              type="text"
+              className="grow w-full"
+              placeholder="Username"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -77,18 +87,19 @@ const SignIn: FC = () => {
                 d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
                 clipRule="evenodd" />
             </svg>
-            <input 
-              type="password" 
-              className="grow w-full" 
+            <input
+              type="password"
+              className="grow w-full"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
           <Link to={"/recovery-password"} className="label-text-alt ml-auto text-blue-500 hover:underline">Recovery Password?</Link>
         </div>
-        <button onClick={() => handleLogin()} className="btn btn-active btn-secondary">
+        <button onClick={() => handleLogin()} className="btn btn-active btn-secondary" disabled={isLoading}>
           Login
         </button>
+        {isError && <div className="text-red-500">Login failed. Please try again.</div>}
         <p className="px-12 lg:px-0 break-words text-center">Don't have an account yet? <Link to={"/registration"} className="text-blue-500 hover:underline">Sign Up</Link></p>
       </section>
     </div>
