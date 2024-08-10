@@ -20,9 +20,9 @@ const Column: FC<ColumnProps> = ({columnId, board }) => {
         <div
           {...provided.droppableProps}
           ref={provided.innerRef}
-          className='p-2 border w-1/5 bg-column rounded-xl'
+          className='p-2 w-1/5 bg-column dark:bg-dcolumn rounded-xl'
         >
-          <p className='text-lg text-center'>{column.title}</p>
+          <p className='text-lg text-center text-black dark:text-white'>{column.title}</p>
           {cards && cards.length > 0 && cards.map((card, index) => (
             <Fragment key={card?.id}>
               <Card

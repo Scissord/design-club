@@ -1,8 +1,9 @@
 import { FC, RefObject, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion';
+import { IconExit, IconUser } from '@icons';
 import { useAppSelector, useNavigate } from '@hooks';
 import { getUser } from '@store/reducers/authSlice';
-import { IconExit, IconUser } from '@icons';
+import { selectTheme } from '@store/reducers/themeSlice';
 
 type ClosedUserOptionsProps = {
   isCloseMenu: boolean;
@@ -19,12 +20,13 @@ const variants = {
 const css = {
   container: `
     bottom-16 left-4 absolute min-w-40
-    min-h-8 bg-white rounded-lg border
+    min-h-8 bg-white dark:bg-indigo-950 rounded-lg
   `,
   label: `
-    p-2 hover:bg-gray-200 hover:rounded-lg
+    p-2 hover:bg-gray-200 dark:hover:bg-gray-900
     cursor-pointer flex items-center gap-2
-    select-none text-[13px]
+    select-none text-[13px] text-black
+    dark:text-white hover:rounded-lg
   `
 };
 
@@ -40,6 +42,7 @@ const ClosedUserOptions: FC<ClosedUserOptionsProps> = (props) => {
 
   const menuRef = useRef<HTMLDivElement>(null);
 
+  const theme = useAppSelector(selectTheme);
   const user = useAppSelector(getUser);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -80,14 +83,14 @@ const ClosedUserOptions: FC<ClosedUserOptionsProps> = (props) => {
             }}
             className={css.label}
           >
-            <IconUser fill="black"/>
+            <IconUser fill={theme === 'light' ? 'black' : 'white'}/>
             Аккаунт
           </p>
           <p
             onClick={() => handleLogOut()}
             className={css.label}
           >
-            <IconExit fill="black"/>
+            <IconExit fill={theme === 'light' ? 'black' : 'white'}/>
             Выход
           </p>
         </motion.div>

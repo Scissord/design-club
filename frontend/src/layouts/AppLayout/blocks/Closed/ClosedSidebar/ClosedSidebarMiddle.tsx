@@ -8,8 +8,8 @@ const css = {
   `,
   icon: `
     flex items-center justify-center
-    hover:rounded-lg p-2 hover:bg-gray-100
-    hover:bg-opacity-20 cursor-pointer
+    hover:rounded-lg p-2 cursor-pointer
+    hover:bg-gray-200 dark:hover:bg-gray-700
   `
 };
 

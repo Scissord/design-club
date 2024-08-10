@@ -1,17 +1,18 @@
-import { useAppSelector } from '@hooks';
-import { selectTheme } from '@store/reducers/themeSlice';
+import { FC } from "react";
 
-export function IconArrowLeftCircle(props: any) {
-  const theme = useAppSelector(selectTheme);
+type IIconArrowLeftCircleProps = {
+  fill: string;
+};
+
+export const IconArrowLeftCircle: FC<IIconArrowLeftCircleProps> = ({ fill }) => {
 
   return (
     <svg
-      fill={theme === 'dark' ? '#000' : 'white'}
+      fill={fill}
       viewBox="0 0 16 16"
       height="1.4em"
       width="1.4em"
       cursor="pointer"
-      {...props}
     >
       <path
         fillRule="evenodd"

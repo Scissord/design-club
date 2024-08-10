@@ -16,16 +16,15 @@ type AppLayoutProps = {
 
 const css = {
   container: `
-    bg-neutral-200 dark:bg-indigo-950 flex
-    items-center justify-center relative min-h-[100vh]
+    flex items-center justify-center relative min-h-[100vh]
   `,
   sidebar: `
-    mr-auto h-[100vh] bg-indigo-950 dark:bg-neutral-200
+    mr-auto h-[100vh] bg-white dark:bg-gray-900
     hidden lg:flex flex-col items-center rounded-tr-sm
     rounded-br-sm transition-width duration-300 relative
   `,
   displayComponent: `
-    w-full min-h-[100vh]
+    w-full min-h-[100vh] bg-neutral-200 dark:bg-indigo-950
   `
 };
 

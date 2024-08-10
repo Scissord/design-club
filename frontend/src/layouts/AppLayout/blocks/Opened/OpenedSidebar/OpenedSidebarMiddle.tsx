@@ -13,11 +13,11 @@ const css = {
   `,
   icon: `
     flex items-center gap-3
-    hover:rounded-lg p-2 hover:bg-gray-100
-    hover:bg-opacity-20 cursor-pointer
+    hover:rounded-lg p-2 cursor-pointer
+    hover:bg-gray-200 dark:hover:bg-gray-700
   `,
   label: `
-    text-[13px] select-none text-white dark:text-black
+    text-[13px] select-none text-black dark:text-white
   `,
 };
 

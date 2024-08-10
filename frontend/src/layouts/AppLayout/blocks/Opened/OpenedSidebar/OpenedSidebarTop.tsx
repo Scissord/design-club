@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import { toggleSidebar } from "@store/reducers/sidebarSlice";
 import { motion, Variants } from 'framer-motion';
-import { useAppDispatch } from '@hooks';
+import { useAppDispatch, useAppSelector } from '@hooks';
 import { IconArrowLeftCircle } from '@icons';
+import { selectTheme } from '@store/reducers/themeSlice';
 
 type OpenedSidebarTopProps = {
   variants: Variants;
@@ -14,17 +15,19 @@ const css = {
   `,
   title: `
     flex flex-col font-bold text-md
-    text-center text-white dark:text-black
+    text-center text-black dark:text-white
   `,
   icon: `
     flex items-center justify-center
-    hover:rounded-lg p-2 hover:bg-gray-100
-    hover:bg-opacity-20 cursor-pointer
+    hover:rounded-lg p-2 cursor-pointer
+    hover:bg-gray-200 dark:hover:bg-gray-700
   `,
 };
 
 const OpenedSidebarTop: FC<OpenedSidebarTopProps> = ({ variants }) => {
   const dispatch = useAppDispatch();
+
+  const theme = useAppSelector(selectTheme);
 
   return (
     <motion.div
@@ -45,7 +48,7 @@ const OpenedSidebarTop: FC<OpenedSidebarTopProps> = ({ variants }) => {
         onClick={() => dispatch(toggleSidebar())}
         className={css.icon}
       >
-        <IconArrowLeftCircle />
+        <IconArrowLeftCircle fill={theme === 'light' ? 'black' : 'white'}/>
       </div>
     </motion.div>
   )

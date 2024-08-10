@@ -16,12 +16,12 @@ const css = {
     mt-auto flex flex-col gap-3 w-full px-2
   `,
   icon: `
-    flex items-center gap-3
-    hover:rounded-lg p-2 hover:bg-gray-100
-    hover:bg-opacity-20 cursor-pointer
+    flex items-center gap-3 hover:rounded-lg
+    p-2 hover:bg-gray-200 dark:hover:bg-gray-700
+    cursor-pointer
   `,
   label: `
-    text-[13px] select-none text-white dark:text-black
+    text-[13px] select-none text-black dark:text-white
   `,
   avatar: `
     w-[1.4em] h-[1.4em] rounded-full

@@ -1,21 +1,21 @@
+import { FC } from 'react';
 import { useAppSelector } from '@hooks';
 import { selectTheme } from '@store/reducers/themeSlice';
 
-export function IconStorage(props: any) {
+export const IconStorage: FC = () => {
   const theme = useAppSelector(selectTheme);
 
   return (
     <svg
+      fill="none"
       viewBox="0 0 512 512"
-      fill={'none'}
       height="1.4em"
       width="1.4em"
       cursor="pointer"
-      {...props}
     >
       <path
         fill="none"
-        stroke={theme === 'dark' ? '#000' : 'white'}
+        stroke={theme === 'dark' ? 'white' : 'black'}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={32}

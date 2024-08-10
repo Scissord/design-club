@@ -1,15 +1,20 @@
-export function IconMoon(props: any) {
+import { FC } from "react";
+
+type IIconMoonProps = {
+  fill: string;
+};
+
+export const IconMoon: FC<IIconMoonProps> = ({ fill }) => {
   return (
     <svg
+      fill={fill}
       viewBox="0 0 512 512"
-      fill="white"
 			height="1.4em"
 			width="1.4em"
-      {...props}
     >
       <path
-        fill="none"
-        stroke="white"
+        fill={fill}
+        stroke={fill}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={32}

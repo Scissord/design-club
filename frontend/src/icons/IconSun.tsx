@@ -1,15 +1,20 @@
-export function IconSun(props: any) {
+import { FC } from "react";
+
+type IIconSunProps = {
+  fill: string;
+};
+
+export const IconSun: FC<IIconSunProps> = ({ fill }) => {
   return (
 		<svg
+      fill={fill}
 			viewBox="0 0 512 512"
-			fill="#1e1b4b"
 			height="1.4em"
 			width="1.4em"
-			{...props}
 		>
 			<path
 				fill="none"
-				stroke="#1e1b4b"
+				stroke={fill}
 				strokeLinecap="round"
 				strokeMiterlimit={10}
 				strokeWidth={32}
@@ -17,7 +22,7 @@ export function IconSun(props: any) {
 			/>
 			<path
 				fill="none"
-				stroke="#1e1b4b"
+				stroke={fill}
 				strokeLinecap="round"
 				strokeMiterlimit={10}
 				strokeWidth={32}

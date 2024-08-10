@@ -24,7 +24,7 @@ const Card: FC<CardProps> = (props) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           style={provided.draggableProps.style}
-          className='select-none p-2 m-2 bg-card color-black border shadow-md rounded-lg'
+          className='select-none p-2 m-2 bg-card dark:bg-dcard color-black shadow-md rounded-lg'
         >
           {index + 1}.
           {card?.content}

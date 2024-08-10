@@ -5,12 +5,15 @@ import { selectTheme } from '@store/reducers/themeSlice';
 
 export const ColorModeButton: FC = () => {
   const theme = useAppSelector(selectTheme);
+  const color = theme === 'light' ? 'black' : 'white'
 
   return (
-		<div
-			className={`${theme === 'light' ? 'border-indigo-950' : 'border-neutral-200'}`}
-		>
-			{theme === 'light' ? <IconMoon/> : <IconSun/>}
-		</div>
+		<>
+			{
+        theme === 'light'
+          ? <IconMoon fill={color}/>
+          : <IconSun fill={color}/>
+      }
+		</>
 	)
 };
