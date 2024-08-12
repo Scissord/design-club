@@ -21,8 +21,14 @@ export const Modal: FC<ModalProps> = ({ id, title, children }) => {
   }, [id])
 
   return (
-    <dialog id={id} className="modal">
-      <div className={`modal-box ${theme === 'dark' ? 'bg-indigo-950' : 'bg-white'}`}>
+    <dialog id={id} className="modal" style={{ overflow: 'visible' }} >
+      <div
+        className={`
+          modal-box
+          ${theme === 'dark' ? 'bg-indigo-950' : 'bg-white'}
+        `}
+        style={{ overflow: 'visible' }}
+      >
         <form method="dialog">
           <button
             onClick={() => context?.modal.hide()}
@@ -32,7 +38,14 @@ export const Modal: FC<ModalProps> = ({ id, title, children }) => {
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-lg">{title}</h3>
+        <h3
+          className={`
+            font-bold text-lg mb-6
+            ${theme === 'dark' ? 'text-white' : 'text-black'}
+          `}
+        >
+          {title}
+        </h3>
         {children}
       </div>
     </dialog>

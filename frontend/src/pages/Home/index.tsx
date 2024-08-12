@@ -6,17 +6,9 @@ import Column from './blocks/Column';
 const Home: FC = () => {
   const {
     board,
-    onDragEnd
+    onDragEnd,
+    handleOpenAddDealModal
   } = useBoard();
-
-  // const context = useContext(ViewContext);
-
-  // const handleOpenAddDealModal = (status: number) => {
-  //   context?.modal.show({
-  //     title: 'Add Product',
-  //     children: <AddDeal status={status}/>
-  //   })
-  // };
 
   return (
     <>
@@ -30,6 +22,7 @@ const Home: FC = () => {
               <Column
                 columnId={columnId}
                 board={board}
+                handleOpenAddDealModal={handleOpenAddDealModal}
               />
             </Fragment>
           ))}

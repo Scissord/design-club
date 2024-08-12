@@ -3,6 +3,13 @@ import countPagination from '../helpers/countPagination.js';
 
 const db = knex();
 
+export const getAll = async function () {
+  return await db('product')
+    .select('*')
+    .where('deleted_at', null)
+    .orderBy('id', 'desc');
+};
+
 export const get = async function (limit, page, search) {
   const { offset, lastPage } = await countPagination('product', limit, page, search);
 

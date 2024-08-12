@@ -3,17 +3,21 @@ import {
   useMoveCardMutation
 } from '@store/api/columnsApi';
 import { IBoard, IColumn, ICard } from '@interfaces';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { ViewContext } from '@context';
+import AddCardModal from '@pages/Home/modals/AddCard';
 
 export const useBoard = () => {
+  const context = useContext(ViewContext);
+
+  const { data = {}, isSuccess } = useGetColumnsQuery({});
+  const [moveCard] = useMoveCardMutation();
+
   const [board, setBoard] = useState({
     columns: {},
     cards: {},
     order: [],
   });
-
-  const { data = {}, isSuccess } = useGetColumnsQuery({});
-  const [moveCard] = useMoveCardMutation();
 
   useEffect(() => {
     if(data && isSuccess) {
@@ -99,8 +103,16 @@ export const useBoard = () => {
     }).unwrap();
   };
 
+  const handleOpenAddDealModal = (columnId) => {
+    context?.modal.show({
+      title: 'Add Product',
+      children: <AddCardModal columnId={columnId}/>
+    })
+  };
+
   return {
     board,
-    onDragEnd
+    onDragEnd,
+    handleOpenAddDealModal
   };
 };

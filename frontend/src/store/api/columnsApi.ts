@@ -11,6 +11,13 @@ export const columnsApi = createApi({
         url: '/columns',
       }),
     }),
+    createCard: build.mutation({
+      query: (body) => ({
+        method: 'POST',
+        url: `/columns`,
+        body
+      }),
+    }),
     moveCard: build.mutation({
       query: (body) => ({
         method: 'PATCH',
@@ -21,4 +28,4 @@ export const columnsApi = createApi({
   })
 });
 
-export const { useGetColumnsQuery, useMoveCardMutation } = columnsApi;
+export const { useGetColumnsQuery, useCreateCardMutation, useMoveCardMutation } = columnsApi;

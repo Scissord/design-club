@@ -12,6 +12,23 @@ export const get = async (req, res) => {
 	}
 };
 
+export const getAll = async (req, res) => {
+	try {
+    let products = await Product.getAll();
+    products = products.map((product) => {
+      return {
+        value: product.id,
+        label: product.name
+      };
+    });
+
+		res.status(200).send(products);
+	}	catch (err) {
+		console.log("Error in get product controller", err.message);
+		res.status(500).send({ error: "Internal Server Error" });
+	}
+};
+
 export const create = async (req, res) => {
   try {
     const product = await Product.create(req.body);

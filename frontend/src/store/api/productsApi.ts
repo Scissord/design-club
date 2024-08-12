@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { IProduct } from '@interfaces';
 import baseQueryWithReAuth from '@store/middleware/authMiddleware';
 
@@ -14,7 +14,7 @@ export const productsApi = createApi({
   tagTypes: ['Products'],
   endpoints: (build) => ({
     getProducts: build.query({
-      query: ({ limit = 10, page = 1, search = "" }: GetProductsQueryParams) => {
+      query: ({ limit, page, search }: GetProductsQueryParams) => {
         const params = new URLSearchParams();
         if (limit) params.append('limit', limit.toString());
         if (page) params.append('page', page.toString());
@@ -32,6 +32,12 @@ export const productsApi = createApi({
           return [{ type: 'Products', id: 'LIST' }];
         }
       },
+    }),
+    getAllProducts: build.query({
+      query: () => ({
+        method: 'GET',
+        url: '/products/all',
+      }),
     }),
     addProduct: build.mutation({
       query: (body) => ({
@@ -51,4 +57,9 @@ export const productsApi = createApi({
   })
 });
 
-export const { useGetProductsQuery, useAddProductMutation, useDeleteProductMutation } = productsApi;
+export const {
+  useGetProductsQuery,
+  useGetAllProductsQuery,
+  useAddProductMutation,
+  useDeleteProductMutation
+} = productsApi;

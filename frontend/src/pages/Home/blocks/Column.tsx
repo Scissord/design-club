@@ -6,9 +6,15 @@ import Card from './Card';
 type ColumnProps = {
   columnId: string;
   board: IBoard;
+  handleOpenAddDealModal: (id: string) => void;
 }
 
-const Column: FC<ColumnProps> = ({columnId, board }) => {
+const Column: FC<ColumnProps> = (props) => {
+  const {
+    columnId, board,
+    handleOpenAddDealModal,
+  } = props;
+
   const column = board.columns[columnId];
   const cards = column.cardsIds
     .map((cardId: string) => board.cards[cardId])
@@ -33,9 +39,10 @@ const Column: FC<ColumnProps> = ({columnId, board }) => {
           ))}
           {provided.placeholder}
           <p
+            onClick={() => handleOpenAddDealModal(column.id)}
             className={`
-              text-center select-none bg-indigo-950
-              p-2 m-2 text-white border shadow-md rounded-lg
+              text-center select-none bg-white dark:bg-indigo-950
+              p-2 m-2 text-black dark:text-white shadow-md rounded-lg
               cursor-pointer
             `}
           >
