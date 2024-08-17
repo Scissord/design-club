@@ -24,7 +24,11 @@ export const get = async (req, res) => {
     cardsFromDb.forEach(card => {
       cards[card.id] = {
         id: card.id,
-        content: card.content,
+        price: card.price,
+        client_name: card.client_name,
+        source_name: card.source_name,
+        column_id: card.column_id,
+        created_at: card.created_at
       };
     });
 
@@ -35,6 +39,47 @@ export const get = async (req, res) => {
     });
   } catch (err) {
     console.log("Error in get column controller", err.message);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+export const createCard = async (req, res) => {
+  try {
+    const column_id = req.params.column_id;
+    const { price, source_id, client_id, products } = req.body;
+
+    const card = await Card.create({
+      price,
+      source_id,
+      client_id,
+      column_id
+    });
+
+    const column = await Column.find(column_id);
+    const cards_ids = Array.isArray(column.cards_ids) ? [...column.cards_ids, card.id] : [card.id];
+    await Column.update(column.id, { cards_ids });
+
+    res.status(200).send({ message: "ok" });
+  } catch (err) {
+    console.log("Error in createCard column controller", err.message);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+export const deleteCard = async (req, res) => {
+  try {
+    const card_id = req.params.card_id;
+    const { column_id } = req.body;
+
+    const column = await Column.find(column_id);
+    const cards_ids = column.cards_ids.filter((id) => id !== card_id);
+    await Column.update(column.id, { cards_ids });
+
+    await Card.softDelete(card_id);
+
+    res.status(200).send({ message: "ok" });
+  } catch (err) {
+    console.log("Error in deleteCard column controller", err.message);
     res.status(500).send({ error: "Internal Server Error" });
   }
 };

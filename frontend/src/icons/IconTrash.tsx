@@ -1,11 +1,18 @@
-export function IconTrash(props: any) {
+import { FC } from "react";
+
+type IconTrashProps = {
+  width?: string,
+  height?: string,
+};
+
+export const IconTrash: FC<IconTrashProps> = (props) => {
+  const { height, width } = props;
   return (
 		<svg
       viewBox="0 0 512 512"
       fill="red"
-      height={props.height ?? "1.4em"}
-      width={props.width ?? "1.4em"}
-      {...props}
+      height={height || "1.4em"}
+      width={width || "1.4em"}
     >
       <path
         fill="none"
@@ -15,4 +22,4 @@ export function IconTrash(props: any) {
       <path d="M447.55 96H336V48a16 16 0 00-16-16H192a16 16 0 00-16 16v48H64.45L64 136h33l20.09 314A32 32 0 00149 480h214a32 32 0 0031.93-29.95L415 136h33zM176 416l-9-256h33l9 256zm96 0h-32V160h32zm24-320h-80V68a4 4 0 014-4h72a4 4 0 014 4zm40 320h-33l9-256h33z" />
     </svg>
   );
-}
+};

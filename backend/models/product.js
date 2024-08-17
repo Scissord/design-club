@@ -1,40 +1,39 @@
 import knex from './knex.js';
-import countPagination from '../helpers/countPagination.js';
 
 const db = knex();
 
 export const getAll = async function () {
   return await db('product')
-    .select('*')
+    .select('product.id as value', 'product.name as label')
     .where('deleted_at', null)
     .orderBy('id', 'desc');
 };
 
 export const get = async function (limit, page, search) {
-  const { offset, lastPage } = await countPagination('product', limit, page, search);
-
-  const products = await db('product')
+  const result = await db('product')
     .select('*')
     .where((q) => {
       search && q.where('name', 'ilike', `%${search}%`);
     })
     .where('deleted_at', null)
-    .limit(limit)
-    .offset(offset)
-    .orderBy('id', 'desc');
+    .paginate({
+      perPage: limit,
+      currentPage: page,
+      isLengthAware: true
+    });
 
   return {
-    products,
-    lastPage
+    products: result.data,
+    lastPage: result.pagination.lastPage
   }
 };
 
 export const create = async function (data) {
-  const [id] = await db("product")
+  const [product] = await db("product")
     .insert(data)
     .returning("id");
 
-  data.id = id;
+  data.id = product.id;
   return data;
 };
 
@@ -42,7 +41,15 @@ export const softDelete = async function (id) {
   return await db("product").update('deleted_at', new Date()).where('id', id)
 };
 
-export const update = async function (data) {
+export const findWhere = async function (condition) {
+  return await db("product")
+    .select('*')
+    .where(condition);
+};
 
-  return data
+export const find = async function (id) {
+  return await db("product")
+    .select('*')
+    .where("id", id)
+    .first();
 };

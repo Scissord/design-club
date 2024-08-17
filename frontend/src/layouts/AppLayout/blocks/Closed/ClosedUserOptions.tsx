@@ -19,7 +19,7 @@ const variants = {
 
 const css = {
   container: `
-    bottom-16 left-4 absolute min-w-40
+    z-20 bottom-16 left-4 absolute min-w-40
     min-h-8 bg-white dark:bg-indigo-950 rounded-lg
   `,
   label: `

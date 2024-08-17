@@ -1,16 +1,17 @@
-import { FC, useState } from 'react';
-import {
-  useGetProductsQuery,
-} from '@store/api/productsApi';
+import { FC } from 'react';
+import { useProducts } from '@hooks';
 import ProductsTopSection from './blocks/ProductsTopSection';
 import ProductsTableSection from './blocks/ProductsTableSection';
 
 const Products: FC = () => {
-  const [limit, setLimit] = useState<number>(10);
-  const [page, setPage] = useState<number>(1);
-  const [search, setSearch] = useState<string>("");
-
-  const { data = [] } = useGetProductsQuery({ limit, page, search });
+  const {
+    limit, setLimit,
+    search, setSearch,
+    page, setPage, data,
+    isGetLoading, handleDeleteProduct,
+    handleCreateProduct, isCreateLoading,
+    isCreateError,
+  } = useProducts();
 
   return (
     <>
@@ -20,15 +21,20 @@ const Products: FC = () => {
         search={search}
         setSearch={setSearch}
         setPage={setPage}
+        isGetLoading={isGetLoading}
+        handleCreateProduct={handleCreateProduct}
+        isCreateLoading={isCreateLoading}
+        isCreateError={isCreateError}
       />
       <ProductsTableSection
         products={data?.products}
         lastPage={data?.lastPage}
         page={page}
         setPage={setPage}
+        handleDeleteProduct={handleDeleteProduct}
       />
     </>
   )
 }
 
-export default Products
+export default Products;

@@ -1,9 +1,7 @@
-import { FC, useContext } from 'react';
-import { ViewContext } from '@context';
-import { IError, IAddCardForm } from '@interfaces';
+import { FC } from 'react';
+import { IAddCardForm } from '@interfaces';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useCreateCardMutation } from '@store/api/columnsApi';
 import { addDealSchema } from '@validation';
 
 import Price from './AddCard/Price';
@@ -13,12 +11,13 @@ import Products from './AddCard/Products';
 
 type AddDealProps = {
   columnId: string;
+  handleCreateCard: (columnId: string, data: IAddCardForm) => void;
+  isLoading: boolean;
+  isError: boolean;
 };
 
-const AddCardModal: FC<AddDealProps> = ({ columnId }) => {
-  const context = useContext(ViewContext);
-
-  const [createCard, { isError, isLoading }] = useCreateCardMutation();
+const AddCardModal: FC<AddDealProps> = (props) => {
+  const { columnId, handleCreateCard, isLoading, isError } = props;
 
   const {
     control,
@@ -30,20 +29,15 @@ const AddCardModal: FC<AddDealProps> = ({ columnId }) => {
     mode: "onBlur",
     resolver: yupResolver(addDealSchema),
     defaultValues: {
+      price: 0,
+      source_id: "1",
+      client_id: undefined,
       products: [],
     },
   });
 
   const onSubmit: SubmitHandler<IAddCardForm> = async (data) => {
-    console.log(data);
-    // try {
-    //   await createCard(data).unwrap();
-    //   context?.modal.hide();
-    //   // isSuccess &&
-    // } catch (error) {
-    //   const typedError = error as IError;
-    //   context?.notification.show(typedError?.data?.error || 'An error occurred', 'error');
-    // }
+    handleCreateCard(columnId, data);
   };
 
   return (
@@ -55,21 +49,19 @@ const AddCardModal: FC<AddDealProps> = ({ columnId }) => {
         register={register}
         errors={errors}
       />
-
       <Source
         register={register}
         errors={errors}
       />
-
       <Client
-        register={register}
-        errors={errors}
+        control={control}
       />
-
       <Products
         control={control}
       />
-
+      <div className='col-span-3'>
+        {isError && <div className="text-red-500">Request failed. Please try again.</div>}
+      </div>
       <div className='col-span-3 flex items-center gap-3 ml-auto mt-6'>
         <button
           type="submit"
@@ -85,7 +77,6 @@ const AddCardModal: FC<AddDealProps> = ({ columnId }) => {
           Reset
         </button>
       </div>
-      {isError && <div className="text-red-500">Request failed. Please try again.</div>}
     </form>
   )
 }

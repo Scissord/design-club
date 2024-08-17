@@ -2,6 +2,15 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setAccessToken, localLogout } from '../reducers/authSlice';
 import { RootState } from '../index';
 
+interface ErrorData {
+  accessToken?: string;
+};
+
+interface ApiError {
+  status: number;
+  data: ErrorData;
+};
+
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:8080/api',
   credentials: 'include',
@@ -20,11 +29,11 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReAuth = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error && result.error.status === 401) {
-    const newToken = result?.error?.data?.accessToken;
+  if (result.error && (result.error as ApiError).status === 401) {
+    const newToken = (result.error as ApiError)?.data?.accessToken;
+
     if (newToken) {
       api.dispatch(setAccessToken(newToken));
-
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(localLogout());

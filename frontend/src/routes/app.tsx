@@ -4,9 +4,11 @@ import { IRoute } from '@interfaces';
 
 const HomePage = lazy(() => import('@pages/Home'));
 const UserPage = lazy(() => import('@pages/User'));
-const ArticlesPage = lazy(() => import('@pages/Articles'));
 const ProductsPage = lazy(() => import('@pages/Products'));
-const StoragePage = lazy(() => import('@pages/Storage'));
+const ClientsPage = lazy(() => import('@pages/Clients'));
+const SourcesPage = lazy(() => import('@pages/Sources'));
+// const ArticlesPage = lazy(() => import('@pages/Articles'));
+// const StoragePage = lazy(() => import('@pages/Storage'));
 
 const AppRoutes: IRoute[] = [
   {
@@ -22,23 +24,35 @@ const AppRoutes: IRoute[] = [
 		title: "User",
   },
   {
-		path: "/articles",
-		element: CW(ArticlesPage),
-		layout: "app",
-		title: "Articles",
-	},
-  {
 		path: "/products",
 		element: CW(ProductsPage),
 		layout: "app",
 		title: "Products",
 	},
   {
-		path: "/storage",
-		element: CW(StoragePage),
+		path: "/clients",
+		element: CW(ClientsPage),
 		layout: "app",
-		title: "Storage",
+		title: "Clients",
 	},
+  {
+		path: "/sources",
+		element: CW(SourcesPage),
+		layout: "app",
+		title: "Sources",
+	},
+  // {
+	// 	path: "/articles",
+	// 	element: CW(ArticlesPage),
+	// 	layout: "app",
+	// 	title: "Articles",
+	// },
+  // {
+	// 	path: "/storage",
+	// 	element: CW(StoragePage),
+	// 	layout: "app",
+	// 	title: "Storage",
+	// },
 ]
 
 

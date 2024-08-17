@@ -1,3 +1,10 @@
 export { Icon } from './Icon/Icon';
 export { Search } from './Search/Search';
 export { Loader } from './Loader/Loader';
+export { Select } from './Select/Select';
+export { Button } from './Button/Button';
+export { Pagination } from './Pagination/Pagination';
+export { Table } from './Table/Table';
+// FORM
+export { FormNumberInput } from './Form/NumberInput/NumberInput';
+export { FormSelect } from './Form/Select/Select';

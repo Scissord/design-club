@@ -1,11 +1,12 @@
 import { FC } from "react";
-import { UseFormRegister, FieldValues, FieldErrors  } from "react-hook-form";
+import { UseFormRegister, FieldErrors  } from "react-hook-form";
 import { IAddCardForm } from "@interfaces";
 import Label from "./Label";
+import { FormNumberInput } from "@ui";
 
 type PriceProps = {
   register: UseFormRegister<IAddCardForm>;
-  errors: FieldErrors<FieldValues>;
+  errors: FieldErrors<IAddCardForm>;
 };
 
 const Price: FC<PriceProps> = ({ register, errors }) => {
@@ -13,19 +14,12 @@ const Price: FC<PriceProps> = ({ register, errors }) => {
     <>
       <Label label={"Price"}/>
       <div className='col-span-2'>
-        <label className="bg-white text-black input input-bordered flex items-center gap-2 w-full">
-          <input
-            type="number"
-            className="grow w-full"
-            {...register("price")}
-          />
-        </label>
+        <FormNumberInput
+          value={"price"}
+          register={register}
+          errors={errors}
+        />
       </div>
-      {/* {errors.price?.message && (
-        <div className="text-red-500">
-          {typeof errors.price.message === 'string' ? errors.price.message : 'Invalid input'}
-        </div>
-      )} */}
     </>
   );
 };

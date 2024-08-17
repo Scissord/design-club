@@ -1,6 +1,9 @@
 // sidebar
 export { sidebar_urls } from './sidebar/sidebar_urls';
 
-//product
+// product
 export { mockProducts } from './product/products';
 export { productsHeaders } from './product/headers';
+export { productFields } from './product/fields';
+// overall
+export { limits } from './limits/limits';

@@ -1,19 +1,23 @@
 import {
   useGetColumnsQuery,
+  useCreateCardMutation,
+  useDeleteCardMutation,
   useMoveCardMutation
-} from '@store/api/columnsApi';
-import { IBoard, IColumn, ICard } from '@interfaces';
-import { useCallback, useContext, useEffect, useState } from 'react';
+} from '@store/api/boardApi';
+import { IAddCardForm, IBoard, IError } from '@interfaces';
+import { useContext, useEffect, useState } from 'react';
 import { ViewContext } from '@context';
-import AddCardModal from '@pages/Home/modals/AddCard';
+import { DropResult } from '@hello-pangea/dnd';
 
 export const useBoard = () => {
   const context = useContext(ViewContext);
 
   const { data = {}, isSuccess } = useGetColumnsQuery({});
   const [moveCard] = useMoveCardMutation();
+  const [deleteCard] = useDeleteCardMutation();
+  const [createCard, { isError, isLoading }] = useCreateCardMutation();
 
-  const [board, setBoard] = useState({
+  const [board, setBoard] = useState<IBoard>({
     columns: {},
     cards: {},
     order: [],
@@ -25,7 +29,7 @@ export const useBoard = () => {
     }
   }, [isSuccess, data]);
 
-  const onDragEnd = async (result) => {
+  const onDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
     if (!destination) return;
@@ -103,16 +107,34 @@ export const useBoard = () => {
     }).unwrap();
   };
 
-  const handleOpenAddDealModal = (columnId) => {
-    context?.modal.show({
-      title: 'Add Product',
-      children: <AddCardModal columnId={columnId}/>
-    })
+  const handleCreateCard = async (columnId: string, data: IAddCardForm) => {
+    try {
+      await createCard({ columnId, body: data  }).unwrap();
+      context?.modal.hide();
+    } catch (error) {
+      const typedError = error as IError;
+      context?.notification.show(typedError?.data?.error || 'An error occurred', 'error');
+    }
+  };
+
+  const handleDeleteCard = async (id: string, columnId: string) => {
+    const confirm = window.confirm('Are you sure?');
+    if(confirm) {
+      try {
+        await deleteCard({ cardId: id, columnId }).unwrap();
+      } catch (error) {
+        const typedError = error as IError;
+        context?.notification.show(typedError?.data?.error || 'An error occurred', 'error');
+      }
+    };
   };
 
   return {
     board,
     onDragEnd,
-    handleOpenAddDealModal
+    handleDeleteCard,
+    handleCreateCard,
+    isCreateLoading: isLoading,
+    isCreateError: isError,
   };
 };

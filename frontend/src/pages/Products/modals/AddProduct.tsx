@@ -1,8 +1,13 @@
-import { FC, useContext, useEffect, useState } from 'react';
-import { useAddProductMutation } from '@store/api/productsApi';
+import { FC, useContext, useState } from 'react';
 import { ViewContext } from '@context';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+type AddProductProps = {
+  handleCreateProduct: (data: IAddProductForm) => void;
+  isCreateLoading: boolean;
+  isCreateError: boolean;
+};
 
 const DEFAULT_NEW_PRODUCT = {
   name: '',
@@ -13,24 +18,23 @@ const DEFAULT_NEW_PRODUCT = {
   lastLogin: new Date(),
 }
 
-const AddProduct: FC = () => {
+const AddProduct: FC<AddProductProps> = (props) => {
+  const {
+    handleCreateProduct,
+    isCreateLoading,
+    isCreateError
+  } = props;
   const context = useContext(ViewContext);
 
   const [newProduct, setNewProduct] = useState(DEFAULT_NEW_PRODUCT);
 
-  const [addProduct] = useAddProductMutation();
 
   const handleResetProduct = () => {
     setNewProduct(DEFAULT_NEW_PRODUCT);
   };
 
-  const handleCreateProduct = async () => {
-    if(newProduct) {
-      //.unwrap(); is using to take correct data from second index of useAddProductMutation, like isError
-      await addProduct(newProduct).unwrap();
-      context?.modal.hide();
-      setNewProduct(DEFAULT_NEW_PRODUCT);
-    }
+  const onSubmit = async () => {
+    handleCreateProduct(newProduct);
   };
 
   return (
@@ -116,7 +120,7 @@ const AddProduct: FC = () => {
 
       <div className='col-span-3 flex items-center gap-3 ml-auto mt-6'>
         <button
-          onClick={() => handleCreateProduct()}
+          onClick={() => onSubmit()}
           className="btn btn-success text-white"
         >
           Success

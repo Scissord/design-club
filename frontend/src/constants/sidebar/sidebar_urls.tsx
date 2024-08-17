@@ -1,4 +1,11 @@
-import { IconHome, IconArticle, IconProduct, IconStorage } from "@icons";
+import {
+  IconHome,
+  IconProduct,
+  IconClients,
+  IconSource,
+  // IconArticle,
+  // IconStorage
+} from "@icons";
 
 export const sidebar_urls = [
   {
@@ -7,19 +14,29 @@ export const sidebar_urls = [
     path: '/'
   },
   {
-    icon: <IconArticle/>,
-    label: 'Артикулы',
-    path: '/articles'
-  },
-  {
     icon: <IconProduct/>,
     label: 'Номенклатура',
     path: '/products'
   },
   {
-    icon: <IconStorage/>,
-    label: 'Склад',
-    path: '/storage'
+    icon: <IconClients/>,
+    label: 'Клиенты',
+    path: '/clients'
+  },
+  {
+    icon: <IconSource/>,
+    label: 'Источники',
+    path: '/sources'
   },
 
-]
+  // {
+  //   icon: <IconArticle/>,
+  //   label: 'Артикулы',
+  //   path: '/articles'
+  // },
+  // {
+  //   icon: <IconStorage/>,
+  //   label: 'Склад',
+  //   path: '/storage'
+  // },
+];

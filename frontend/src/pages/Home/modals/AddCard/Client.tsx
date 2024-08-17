@@ -1,38 +1,46 @@
 import { FC } from "react";
-import { UseFormRegister, FieldValues, FieldErrors  } from "react-hook-form";
-import { IAddCardForm } from "@interfaces";
+import { Controller, Control } from "react-hook-form";
+import { useGetAllClientsQuery } from '@store/api/clientApi';
+import { IAddCardForm, IOption } from "@interfaces";
+import ReactSelect from "react-select";
 import Label from "./Label";
 
 type ClientProps = {
-  register: UseFormRegister<IAddCardForm>;
-  errors: FieldErrors<FieldValues>;
+  control: Control<IAddCardForm>;
 };
 
-const clients = [
-  { id: 1, label: 'ИП Ульянов' },
-  { id: 2, label: 'BI GROUP' },
-  { id: 3, label: '"ТОО ТРАХ"' },
-];
+const Client: FC<ClientProps> = ({ control }) => {
+  const { data = [] } = useGetAllClientsQuery({});
 
-const Client: FC<ClientProps> = ({ register, errors }) => {
   return (
     <>
       <Label label={"Client"}/>
       <div className='col-span-2'>
-        <select
-          className="bg-white text-black select select-bordered w-full max-w-xs"
-          {...register("client_id")}
-        >
-          {clients.map((client) => (
-            <option key={client.id} value={client.id}>{client.label}</option>
-          ))}
-        </select>
+        <Controller
+          control={control}
+          name="client_id"
+          render={({ field: { value, onChange }, fieldState: { error } }) => (
+            <>
+              <ReactSelect
+                placeholder={"Client"}
+                options={data}
+                value={data.find((option: IOption) => option.value === value) || null}
+                className="text-black"
+                onChange={(selectedOption) => {
+                  if (selectedOption) {
+                    onChange((selectedOption as IOption).value);
+                  };
+                }}
+              />
+              {error && (
+                <div className="text-red-500 mt-2">
+                  {error.message}
+                </div>
+              )}
+            </>
+          )}
+        />
       </div>
-      {/* {errors.client?.message && (
-        <div className="text-red-500">
-          {typeof errors.client.message === 'string' ? errors.client.message : 'Invalid input'}
-        </div>
-      )} */}
     </>
   )
 }

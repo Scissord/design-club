@@ -4,8 +4,9 @@ import themeReducer from './reducers/themeSlice';
 import sidebarReducer from './reducers/sidebarSlice';
 import { authApi } from './api/authApi';
 import { productsApi } from './api/productsApi';
-// import { dealsApi } from './api/dealsApi';
-import { columnsApi } from './api/columnsApi';
+import { boardApi } from './api/boardApi';
+import { sourceApi } from './api/sourceApi';
+import { clientApi } from './api/clientApi';
 
 const rootReducer = combineReducers({
   // redux
@@ -15,8 +16,9 @@ const rootReducer = combineReducers({
   // rtk-query endpoints
   [authApi.reducerPath]: authApi.reducer,
   [productsApi.reducerPath]: productsApi.reducer,
-  // [dealsApi.reducerPath]: dealsApi.reducer,
-  [columnsApi.reducerPath]: columnsApi.reducer,
+  [boardApi.reducerPath]: boardApi.reducer,
+  [sourceApi.reducerPath]: sourceApi.reducer,
+  [clientApi.reducerPath]: clientApi.reducer,
 });
 
 export const store = configureStore({
@@ -26,11 +28,11 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(
         productsApi.middleware,
-        // dealsApi.middleware,
-        columnsApi.middleware,
+        boardApi.middleware,
+        sourceApi.middleware,
+        clientApi.middleware,
       ),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

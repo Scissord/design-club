@@ -3,7 +3,11 @@ import knex from './knex.js';
 const db = knex();
 
 export const get = async function () {
-  return await db('card').select('*');
+  return await db('card as ca')
+    .select('ca.*', 'cl.name as client_name', 's.name as source_name')
+    .leftJoin('client as cl', 'cl.id', 'ca.client_id')
+    .leftJoin('source as s', 's.id', 'ca.source_id')
+    .where('ca.deleted_at', null);
 };
 
 export const create = async function (data) {
@@ -42,4 +46,12 @@ export const updateWhereIn = async function (ids, data) {
     .whereIn("id", ids);
 
   return data;
+};
+
+export const softDelete = async function (id) {
+  await db("card")
+    .update('deleted_at', new Date())
+    .where('id', id)
+
+  return id
 };

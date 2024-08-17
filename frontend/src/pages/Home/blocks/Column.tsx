@@ -1,24 +1,63 @@
-import { FC, Fragment } from 'react'
-import { IBoard, ICard } from '@interfaces';
+import { FC, Fragment, useContext } from 'react'
+import { IAddCardForm, IBoard, ICard } from '@interfaces';
+import { ViewContext } from '@context';
 import { Droppable } from '@hello-pangea/dnd';
+import AddCardModal from '../modals/AddCard';
 import Card from './Card';
+import './scroll.css';
 
 type ColumnProps = {
   columnId: string;
   board: IBoard;
-  handleOpenAddDealModal: (id: string) => void;
-}
+  handleDeleteCard: (id: string, column_id: string) => void;
+  handleCreateCard: (columnId: string, data: IAddCardForm) => void;
+  isCreateLoading: boolean;
+  isCreateError: boolean;
+};
+
+const css = {
+  container: `
+    column p-2 w-1/5 bg-column
+    dark:bg-dcolumn rounded-xl
+  `,
+  title: `
+    text-lg text-center
+    text-black dark:text-white
+  `,
+  add: `
+    text-center select-none bg-white dark:bg-indigo-950
+    p-2 m-2 text-black dark:text-white shadow-md rounded-lg
+    cursor-pointer
+  `
+};
 
 const Column: FC<ColumnProps> = (props) => {
   const {
     columnId, board,
-    handleOpenAddDealModal,
+    handleDeleteCard,
+    handleCreateCard,
+    isCreateLoading,
+    isCreateError,
   } = props;
+
+  const context = useContext(ViewContext);
 
   const column = board.columns[columnId];
   const cards = column.cardsIds
     .map((cardId: string) => board.cards[cardId])
     .filter((card: ICard)  => card);
+
+  const handleOpenAddDealModal = (columnId: string) => {
+    context?.modal.show({
+      title: 'Add Card',
+      children: <AddCardModal
+        columnId={columnId}
+        handleCreateCard={handleCreateCard}
+        isLoading={isCreateLoading}
+        isError={isCreateError}
+      />
+    })
+  };
 
   return (
     <Droppable droppableId={column.id} key={column.id}>
@@ -26,25 +65,22 @@ const Column: FC<ColumnProps> = (props) => {
         <div
           {...provided.droppableProps}
           ref={provided.innerRef}
-          className='p-2 w-1/5 bg-column dark:bg-dcolumn rounded-xl'
+          className={css.container}
         >
-          <p className='text-lg text-center text-black dark:text-white'>{column.title}</p>
+          <p className={css.title}>{column.title}</p>
           {cards && cards.length > 0 && cards.map((card, index) => (
             <Fragment key={card?.id}>
               <Card
                 card={card}
                 index={index}
+                handleDeleteCard={handleDeleteCard}
               />
             </Fragment>
           ))}
           {provided.placeholder}
           <p
             onClick={() => handleOpenAddDealModal(column.id)}
-            className={`
-              text-center select-none bg-white dark:bg-indigo-950
-              p-2 m-2 text-black dark:text-white shadow-md rounded-lg
-              cursor-pointer
-            `}
+            className={css.add}
           >
             + Добавить
           </p>

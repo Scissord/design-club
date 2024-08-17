@@ -20,7 +20,8 @@ export const seed = async function(knex) {
     },
     {
       id: 'ad133072-4936-449c-9cf2-8e811c496e43',
-      title: 'Подготовка счета на оплату',
+      // title: 'Подготовка счета на оплату',
+      title: 'Подготовка со',
       cards_ids: [''],
       position: 3,
     },

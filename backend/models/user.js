@@ -50,13 +50,9 @@ export const findOne = async function (query) {
     .first();
 };
 
-export const findById = async function (id) {
+export const find = async function (id) {
   return await db('user')
    .select('*')
    .where('id', id)
    .first();
 }
-
-
-
-

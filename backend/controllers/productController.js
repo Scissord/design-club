@@ -14,14 +14,7 @@ export const get = async (req, res) => {
 
 export const getAll = async (req, res) => {
 	try {
-    let products = await Product.getAll();
-    products = products.map((product) => {
-      return {
-        value: product.id,
-        label: product.name
-      };
-    });
-
+    const products = await Product.getAll();
 		res.status(200).send(products);
 	}	catch (err) {
 		console.log("Error in get product controller", err.message);

@@ -5,10 +5,9 @@ export const CW = <P extends object>(Component: ComponentType<P>) => {
   const WrappedComponent = memo((props: P) => (
     <Suspense
       fallback={
-        // <div className="flex items-center justify-center w-full h-screen">
-        //   ...Loading
-        // </div>
-        <Loader/>
+        <Loader
+          className='min-h-[100vh] loading-lg'
+        />
       }
     >
       <Component {...props} />

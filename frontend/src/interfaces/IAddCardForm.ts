@@ -1,11 +1,7 @@
 // Define type for form data
 export type IAddCardForm = {
   price: number;
-  source_id: number;
-  client_id: number;
+  source_id: "1" | "2";
+  client_id: string;
   products: string[];
-  // responsible_id: number;
-  // payment_check: any;
-  // attorney_power: any;
-  // closing_documents: any;
 };

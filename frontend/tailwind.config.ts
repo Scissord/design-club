@@ -9,12 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'primary': '#B968C7',
-        'rainy': '#A6ADBB',
+        'primary': '#646EE4',
         'column': '#f8f8f8',
         'dcolumn': '#101204',
         'card': '#ffffff',
         'dcard': '#22272B',
+        'dbg': '#1D232A',
       },
     },
   },

@@ -1,34 +1,38 @@
 export const productsHeaders = [
   {
-    id: 0,
+    value: 0,
     label: '',
   },
   {
-    id: 1,
+    value: 1,
     label: 'Name',
   },
   {
-    id: 2,
+    value: 2,
     label: 'Job',
   },
   {
-    id: 3,
+    value: 3,
     label: 'company',
   },
   {
-    id: 4,
+    value: 4,
     label: 'location',
   },
   {
-    id: 5,
+    value: 5,
     label: 'Last Login',
   },
   {
-    id: 6,
+    value: 6,
     label: 'Favorite Color',
   },
   {
-    id: 7,
+    value: 7,
     label: '',
-  }
+  },
+  {
+    value: 8,
+    label: '',
+  },
 ]

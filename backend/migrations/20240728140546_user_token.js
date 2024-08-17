@@ -9,7 +9,6 @@ export const up = function(knex) {
       table.bigInteger('user_id').unsigned().notNullable();
       table.string('refresh_token', 255).notNullable();
       table.timestamp('expires_at').notNullable();
-      table.timestamp('created_at').defaultTo(knex.fn.now());
 
       // Установка внешнего ключа
       table.foreign('user_id')  // Определение внешнего ключа для user_id
