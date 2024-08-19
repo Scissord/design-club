@@ -4,14 +4,14 @@ import { DragDropContext } from '@hello-pangea/dnd';
 import Column from './blocks/Column';
 
 const css = {
-  container: `
+  top_section: `
     h-[14vh] flex items-center justify-between
   `,
   label: `
     text-center w-full text-4xl
     font-semibold text-red-500
   `,
-  columnWrapper: `
+  bottom_section: `
     h-[86vh] flex justify-between
     gap-3 px-2 z-50
   `
@@ -29,11 +29,11 @@ const Home: FC = () => {
 
   return (
     <>
-      <section className={css.container}>
+      <section className={css.top_section}>
         <p className={css.label}>Deals</p>
       </section>
       <DragDropContext onDragEnd={onDragEnd}>
-        <section className={css.columnWrapper}>
+        <section className={css.bottom_section}>
           {board?.order.map((columnId) => (
             <Fragment key={columnId}>
               <Column

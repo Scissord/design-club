@@ -10,6 +10,8 @@ const css = {
     flex items-center justify-center
     hover:rounded-lg p-2 cursor-pointer
     hover:bg-gray-200 dark:hover:bg-gray-700
+    transition-transform duration-200
+    ease-in-out transform active:scale-95
   `
 };
 

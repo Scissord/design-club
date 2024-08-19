@@ -1,7 +1,10 @@
 import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
+import { useAppSelector } from "@hooks";
+import { selectTheme } from "@store/reducers/themeSlice";
 import { useGetAllProductsQuery } from '@store/api/productsApi';
 import { IAddCardForm, IOption } from "@interfaces";
+import { getReactSelectMultiStyles } from "@utils";
 import ReactSelect from "react-select";
 import Label from "./Label";
 
@@ -10,6 +13,7 @@ type ProductsProps = {
 };
 
 const Products: FC<ProductsProps> = ({ control }) => {
+  const theme = useAppSelector(selectTheme);
   const { data = [] } = useGetAllProductsQuery({});
 
   return (
@@ -26,9 +30,9 @@ const Products: FC<ProductsProps> = ({ control }) => {
                 options={data}
                 value={data?.filter((option: IOption) => value.includes(option.value))}
                 isMulti={true}
-                className="text-black"
+                styles={getReactSelectMultiStyles(theme)}
                 onChange={(selectedOptions) =>
-                  onChange(selectedOptions.map((option) => option.value))
+                  onChange(selectedOptions.map((option: IOption) => option.value))
                 }
               />
               {error && (

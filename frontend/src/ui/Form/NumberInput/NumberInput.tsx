@@ -1,3 +1,5 @@
+import { useAppSelector } from '@hooks';
+import { selectTheme } from '@store/reducers/themeSlice';
 import { Path, FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 type FormNumberInputProps<T extends FieldValues> = {
@@ -10,8 +12,6 @@ const css = {
   label: `
     input input-bordered flex
     items-center gap-2 w-full
-    bg-white dark:bg-dbg
-    text-black dark:text-white
   `,
   input: `
     grow w-full
@@ -26,9 +26,16 @@ export const FormNumberInput = <T extends FieldValues>({
   register,
   errors
 }: FormNumberInputProps<T>) => {
+  const theme = useAppSelector(selectTheme);
+
   return (
     <>
-      <label className={css.label}>
+      <label
+        className={`
+          ${css.label}
+          ${theme === "light" ? "bg-white text-black" : "bg-dbg text-white"}
+        `}
+      >
         <input
           type="number"
           className={css.input}

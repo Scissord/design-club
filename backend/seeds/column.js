@@ -9,13 +9,13 @@ export const seed = async function(knex) {
     {
       id: '27725dd5-60cd-4bd7-b419-2bec43e0c922',
       title: 'Новая',
-      cards_ids: ['9440f80a-90a5-411e-83d1-d4794ddbdd8b', '348ab5ce-6313-4065-a0c1-3f659cc5d76d'],
+      cards_ids: ["1", "2"],
       position: 1,
     },
     {
       id: '6030aa47-2ca3-471c-8f30-a823fa8f3720',
       title: 'Заполнение брифа',
-      cards_ids: ['b57c02ff-1af9-4b0c-837e-ff7a7bd279a9', '193f217d-6761-47d5-b684-120082d64281'],
+      cards_ids: ["3", "4"],
       position: 2,
     },
     {

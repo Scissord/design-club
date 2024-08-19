@@ -1,8 +1,8 @@
-import { FC, useContext, useState } from 'react'
+import { FC, useState } from 'react'
 import { ICard } from '@interfaces';
 import { Draggable } from '@hello-pangea/dnd';
 import { DateFormat } from '@utils';
-import { ViewContext } from '@context';
+import { useNavigate } from '@hooks';
 
 type CardProps = {
   card: ICard,
@@ -27,17 +27,9 @@ const Card: FC<CardProps> = (props) => {
     index,
     handleDeleteCard
   } = props;
-
-  const context = useContext(ViewContext);
+  const navigate = useNavigate();
 
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);
-
-  const handleOpenCard = (id: string) => {
-    context?.modal.show({
-      title: `Card ${id}`,
-      children: <div>{id}</div>
-    })
-  }
 
   return (
     <Draggable
@@ -53,12 +45,12 @@ const Card: FC<CardProps> = (props) => {
             ...provided.draggableProps.style,
             zIndex: 10
           }}
-          onClick={() => handleOpenCard(card?.id)}
+          onClick={() => navigate(`/cards/${card?.id}`)}
           onMouseEnter={() => setIsDeleteVisible(true)}
           onMouseLeave={() => setIsDeleteVisible(false)}
           className={css.container}
         >
-          <p>{"Входящие обращения №" + (index + 1)}</p>
+          <p>{"Входящие обращения №" + card?.id}</p>
           <p>{card?.price}</p>
           <p>{card?.client_name}</p>
           <p>{DateFormat(card?.created_at, 'H:i d.m.Y')}</p>

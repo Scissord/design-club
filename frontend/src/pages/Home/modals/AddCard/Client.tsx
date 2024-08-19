@@ -1,7 +1,10 @@
 import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
+import { useAppSelector } from "@hooks";
+import { selectTheme } from "@store/reducers/themeSlice";
 import { useGetAllClientsQuery } from '@store/api/clientApi';
 import { IAddCardForm, IOption } from "@interfaces";
+import { getReactSelectStyles } from '@utils';
 import ReactSelect from "react-select";
 import Label from "./Label";
 
@@ -11,6 +14,7 @@ type ClientProps = {
 
 const Client: FC<ClientProps> = ({ control }) => {
   const { data = [] } = useGetAllClientsQuery({});
+  const theme = useAppSelector(selectTheme)
 
   return (
     <>
@@ -25,7 +29,7 @@ const Client: FC<ClientProps> = ({ control }) => {
                 placeholder={"Client"}
                 options={data}
                 value={data.find((option: IOption) => option.value === value) || null}
-                className="text-black"
+                styles={getReactSelectStyles(theme)}
                 onChange={(selectedOption) => {
                   if (selectedOption) {
                     onChange((selectedOption as IOption).value);

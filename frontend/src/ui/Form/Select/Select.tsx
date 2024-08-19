@@ -1,4 +1,6 @@
+import { useAppSelector } from '@hooks';
 import { IOption } from '@interfaces';
+import { selectTheme } from '@store/reducers/themeSlice';
 import { Path, FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 
 type FormSelectProps<T extends FieldValues> = {
@@ -6,12 +8,14 @@ type FormSelectProps<T extends FieldValues> = {
   value: Path<T>,
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
+  isLoading?: boolean;
 };
 
 const css = {
   select: `
-    bg-white text-black select
-    select-bordered w-full max-w-xs
+    text-black select
+    select-bordered w-full
+    max-w-xs
   `,
   error: `
     text-red-500 mt-2
@@ -22,22 +26,31 @@ export const FormSelect = <T extends FieldValues>({
   data,
   value,
   register,
-  errors
+  errors,
+  isLoading
 }: FormSelectProps<T>) => {
+  const theme = useAppSelector(selectTheme);
+
   return (
     <>
       <select
-        className={css.select}
+        className={`
+          ${css.select}
+          ${theme === "light" ? "bg-white text-black" : "bg-dbg text-white"}
+        `}
+        disabled={isLoading}
         {...register(value)}
       >
-        {data?.map((item: IOption) => (
-          <option
-            key={item.value}
-            value={item.value}
-          >
-            {item.label}
-          </option>
-        ))}
+        <>
+          {data?.map((item: IOption) => (
+            <option
+              key={item.value}
+              value={item.value}
+            >
+              {item.label}
+            </option>
+          ))}
+        </>
       </select>
       {errors[value]?.message && (
         <div className={css.error}>

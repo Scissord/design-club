@@ -35,6 +35,7 @@ const OpenedSidebarMiddle: FC<OpenedSidebarMiddleProps> = ({ variants }) => {
           variants={variants}
           transition={{ delay: 0.1 }}
           className={css.icon}
+          whileTap={{ scale: 0.95 }}
         >
           {url.icon}
           <p className={css.label}>{url.label}</p>

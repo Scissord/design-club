@@ -26,11 +26,13 @@ export const findWhere = async function (condition) {
 };
 
 export const find = async function (id) {
-  return await db("card")
-    .select('*')
-    .where("id", id)
+  return await db("card as ca")
+    .select('ca.*', 'ci.name as client_name')
+    .leftJoin('client as ci', 'ci.id', 'ca.client_id')
+    .leftJoin('source as s', 's.id', 'ca.source_id')
+    .where("ca.id", id)
     .first();
-}
+};
 
 export const update = async function (id, data) {
   await db("card")

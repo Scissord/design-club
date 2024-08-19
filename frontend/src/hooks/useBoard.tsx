@@ -12,7 +12,7 @@ import { DropResult } from '@hello-pangea/dnd';
 export const useBoard = () => {
   const context = useContext(ViewContext);
 
-  const { data = {}, isSuccess } = useGetColumnsQuery({});
+  const { data = {}, isLoading: isGetLoading, isSuccess } = useGetColumnsQuery({});
   const [moveCard] = useMoveCardMutation();
   const [deleteCard] = useDeleteCardMutation();
   const [createCard, { isError, isLoading }] = useCreateCardMutation();
@@ -105,6 +105,7 @@ export const useBoard = () => {
       sourceIndex: source.index,
       destinationIndex: destination.index,
     }).unwrap();
+
   };
 
   const handleCreateCard = async (columnId: string, data: IAddCardForm) => {
@@ -134,6 +135,7 @@ export const useBoard = () => {
     onDragEnd,
     handleDeleteCard,
     handleCreateCard,
+    isGetLoading,
     isCreateLoading: isLoading,
     isCreateError: isError,
   };

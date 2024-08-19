@@ -5,7 +5,7 @@ import baseQueryWithReAuth from '@store/middleware/authMiddleware';
 export const boardApi = createApi({
   reducerPath: 'boardApi',
   baseQuery: baseQueryWithReAuth,
-  tagTypes: ['Board'],
+  tagTypes: ['Card', 'Board'],
   endpoints: (build) => ({
     getColumns: build.query({
       query: () => ({
@@ -13,6 +13,13 @@ export const boardApi = createApi({
         url: '/board',
       }),
       providesTags: ['Board'],
+    }),
+    getCard: build.query({
+      query: (id: string) => ({
+        method: 'GET',
+        url: `/board/${id}`,
+      }),
+      providesTags: (result, error, id) => [{ type: 'Card', id }],
     }),
     createCard: build.mutation({
       query: ({ columnId, body }: { columnId: string; body: IAddCardForm }) => ({
@@ -38,12 +45,17 @@ export const boardApi = createApi({
         url: `/board/${body.cardId}`,
         body
       }),
+      invalidatesTags: (result, error, { cardId }) => [
+        'Board',
+        { type: 'Card', id: cardId }
+      ],
     }),
   })
 });
 
 export const {
   useGetColumnsQuery,
+  useGetCardQuery,
   useCreateCardMutation,
   useDeleteCardMutation,
   useMoveCardMutation

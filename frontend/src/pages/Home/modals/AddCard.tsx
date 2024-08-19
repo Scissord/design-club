@@ -43,7 +43,7 @@ const AddCardModal: FC<AddDealProps> = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-3 gap-3 w-full py-6"
+      className="grid grid-cols-3 gap-3 w-full"
     >
       <Price
         register={register}
@@ -62,7 +62,7 @@ const AddCardModal: FC<AddDealProps> = (props) => {
       <div className='col-span-3'>
         {isError && <div className="text-red-500">Request failed. Please try again.</div>}
       </div>
-      <div className='col-span-3 flex items-center gap-3 ml-auto mt-6'>
+      <div className='col-span-3 flex items-center gap-3 ml-auto'>
         <button
           type="submit"
           className="btn btn-success text-white"

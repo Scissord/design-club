@@ -36,6 +36,7 @@ const OpenedSidebarTop: FC<OpenedSidebarTopProps> = ({ variants }) => {
       variants={variants}
       transition={{ delay: 0.1 }}
       className={css.motion}
+      whileTap={{ scale: 0.95 }}
     >
       <p
         className={css.title}

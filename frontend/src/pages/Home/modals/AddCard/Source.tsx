@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { UseFormRegister, FieldValues, FieldErrors  } from "react-hook-form";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { IAddCardForm } from "@interfaces";
 import { useGetAllSourcesQuery } from "@store/api/sourceApi";
 import { FormSelect } from "@ui";
@@ -11,7 +11,7 @@ type SourceProps = {
 };
 
 const Source: FC<SourceProps> = ({ register, errors }) => {
-  const { data = [] } = useGetAllSourcesQuery({});
+  const { data = [], isLoading } = useGetAllSourcesQuery({});
 
   return (
     <>
@@ -22,6 +22,7 @@ const Source: FC<SourceProps> = ({ register, errors }) => {
           value={"source_id"}
           register={register}
           errors={errors}
+          isLoading={isLoading}
         />
       </div>
     </>

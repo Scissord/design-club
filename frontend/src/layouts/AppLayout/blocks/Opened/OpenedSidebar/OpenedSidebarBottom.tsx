@@ -43,6 +43,7 @@ const OpenedSidebarBottom: FC<OpenedSidebarBottomProps> = (props) => {
         transition={{ delay: 0.1 }}
         onClick={() => dispatch(toggleColorMode())}
         className={css.icon}
+        whileTap={{ scale: 0.95 }}
       >
         <ColorModeButton />
         <p className={css.label}>Тема</p>
@@ -56,6 +57,7 @@ const OpenedSidebarBottom: FC<OpenedSidebarBottomProps> = (props) => {
         transition={{ delay: 0.1 }}
         onClick={() => toggleMenu()}
         className={css.icon}
+        whileTap={{ scale: 0.95 }}
       >
         <img
           src={user?.avatar}

@@ -3,7 +3,7 @@ import * as Card from "../models/card.js";
 import sameColumn from "../services/column/sameColumn.js";
 import differentColumns from "../services/column/differentColumns.js";
 
-export const get = async (req, res) => {
+export const getBoard = async (req, res) => {
   try {
     const columnsFromDb = await Column.get();
     const cardsFromDb = await Card.get();
@@ -38,7 +38,39 @@ export const get = async (req, res) => {
       order,
     });
   } catch (err) {
-    console.log("Error in get column controller", err.message);
+    console.log("Error in getBoard boardController", err.message);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+export const getCard = async (req, res) => {
+  try {
+    const { card_id } = req.params;
+    const card = await Card.find(card_id);
+
+    switch (card.column_id) {
+      case "27725dd5-60cd-4bd7-b419-2bec43e0c922":
+        card.progress = 1;
+        break;
+      case "6030aa47-2ca3-471c-8f30-a823fa8f3720":
+        card.progress = 2;
+        break;
+      case "ad133072-4936-449c-9cf2-8e811c496e43":
+        card.progress = 3;
+        break;
+      case "3bc40a59-a534-4a23-80e7-2c0cfa077dfb":
+        card.progress = 4;
+        break;
+      case "cedb0901-871c-4440-a3d2-0ec4e1fe5f1d":
+        card.progress = 5;
+        break;
+      default:
+        break;
+    };
+
+    res.status(200).send(card);
+  } catch (err) {
+    console.log("Error in getCard boardController", err.message);
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
@@ -61,7 +93,7 @@ export const createCard = async (req, res) => {
 
     res.status(200).send({ message: "ok" });
   } catch (err) {
-    console.log("Error in createCard column controller", err.message);
+    console.log("Error in createCard boardController", err.message);
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
@@ -79,7 +111,7 @@ export const deleteCard = async (req, res) => {
 
     res.status(200).send({ message: "ok" });
   } catch (err) {
-    console.log("Error in deleteCard column controller", err.message);
+    console.log("Error in deleteCard boardController", err.message);
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
@@ -117,7 +149,7 @@ export const moveCard = async (req, res) => {
 
     res.status(200).send({ message: "Card moved successfully" });
   } catch (err) {
-    console.log("Error in moveCard column controller", err.message);
+    console.log("Error in moveCard boardController", err.message);
     res.status(400).send({ error: "Invalid request payload" });
   }
 };
