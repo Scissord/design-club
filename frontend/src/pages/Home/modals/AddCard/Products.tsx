@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Controller, Control } from "react-hook-form";
 import { useAppSelector } from "@hooks";
 import { selectTheme } from "@store/reducers/themeSlice";
-import { useGetAllProductsQuery } from '@store/api/productsApi';
+import { useGetAllProductsQuery } from '@store/api/productApi';
 import { IAddCardForm, IOption } from "@interfaces";
 import { getReactSelectMultiStyles } from "@utils";
 import ReactSelect from "react-select";

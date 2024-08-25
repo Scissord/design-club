@@ -1,3 +1,4 @@
+import axios from "axios";
 import { FC, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLoginMutation } from "@store/api/authApi";
@@ -6,14 +7,20 @@ import { setUser, setAccessToken } from "@store/reducers/authSlice";
 import { ViewContext } from "@context";
 
 const css = {
-  container: `flex w-[80%] lg:w-[60%] h-[80vh] lg:h-[70vh] border border-gray-300
-              dark:border-neutral-200 rounded-xl shadow-2xl
-              shadow-neutral-400 dark:shadow-none`,
-  left_section: `hidden xl:flex items-center justify-center w-1/2
-                border-r border-gray-300 dark:border-neutral-200
-                h-full rounded-xl`,
-  right_section: `w-full xl:w-1/2 h-full flex flex-col items-center
-                  justify-between py-6 lg:py-12`,
+  container: `
+    flex w-[80%] lg:w-[60%] h-[80vh] lg:h-[70vh] border border-gray-300
+    dark:border-neutral-200 rounded-xl shadow-2xl
+    shadow-neutral-400 dark:shadow-none
+  `,
+  left_section: `
+    hidden xl:flex items-center justify-center w-1/2
+    border-r border-gray-300 dark:border-neutral-200
+    h-full rounded-xl
+  `,
+  right_section: `
+    w-full xl:w-1/2 h-full flex flex-col items-center
+    justify-between py-6 lg:py-12
+  `,
 }
 
 interface SignupError {
@@ -38,6 +45,7 @@ const SignIn: FC = () => {
       const user = await login({ name, password }).unwrap();
       dispatch(setUser(user.user));
       dispatch(setAccessToken(user.accessToken));
+      axios.defaults.headers.common['Authorization'] = `Bearer ${user.accessToken}`;
       navigate("/");
       // reset();
     } catch (error) {

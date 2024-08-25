@@ -56,5 +56,6 @@ export const { setAccessToken, setUser, localLogout } = authSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const getUser = (state: RootState) => state.auth.user;
+export const getAccessToken = (state: RootState) => state.auth.accessToken;
 
 export default authSlice.reducer;

@@ -8,8 +8,8 @@ interface GetProductsQueryParams {
   search?: string;
 }
 
-export const productsApi = createApi({
-  reducerPath: 'productsApi',
+export const productApi = createApi({
+  reducerPath: 'productApi',
   baseQuery: baseQueryWithReAuth,
   tagTypes: ['Products'],
   endpoints: (build) => ({
@@ -61,5 +61,5 @@ export const {
   useGetProductsQuery,
   useGetAllProductsQuery,
   useAddProductMutation,
-  useDeleteProductMutation
-} = productsApi;
+  useDeleteProductMutation,
+} = productApi;

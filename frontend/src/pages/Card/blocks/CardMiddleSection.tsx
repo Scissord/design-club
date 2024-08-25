@@ -10,10 +10,14 @@ const css = {
     gap-6 px-6 py-2
   `,
   left_middle: `
-    h-full w-1/2 px-2 py-1
+    h-full w-1/2 bg-white dark:bg-dbg flex
+    items-center justify-center rounded-lg
   `,
   right_middle: `
-    h-full w-1/2 bg-white dark:bg-dbg
+    h-full w-1/2 bg-white dark:bg-dbg flex
+    items-center justify-center rounded-lg
+    text-black dark:text-white text-lg gap-6
+    select-none
   `,
 };
 
@@ -29,24 +33,23 @@ const CardMiddleSection: FC<CardMiddleSectionProps> = ({ progress }) => {
   return (
     <section className={css.middle_section}>
       <div className={css.left_middle}>
-        <p>Стадия сделки</p>
-        <div className="flex items-center border border-black dark:border-white rounded-lg h-6">
+        <ul className="steps">
           {sections.map((_, index) => (
-            <div
+            <li
               key={index}
               className={`
-                w-1/5 h-full
-                ${index < progress ? _.color : ''}
-                ${index === 0 ? 'rounded-tl-md rounded-bl-md' : ''}
-                ${index === 4 ? 'rounded-tr-md rounded-br-md' : ''}
-                ${index < sections.length - 1 ? 'border-r border-black dark:border-white' : ''}
+                step
+                ${index < progress ? 'step-primary' : ''}
               `}
             />
           ))}
-        </div>
+        </ul>
       </div>
       <div className={css.right_middle}>
-        right_top
+        <p className='cursor-pointer'>Печать</p>
+        <p className='cursor-pointer'>Дизайн</p>
+        <p className='cursor-pointer'>Перезаказ</p>
+        <p className='cursor-pointer'>Бухгалтерия</p>
       </div>
     </section>
   );

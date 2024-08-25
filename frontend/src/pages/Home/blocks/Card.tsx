@@ -53,7 +53,10 @@ const Card: FC<CardProps> = (props) => {
           <p>{"Входящие обращения №" + card?.id}</p>
           <p>{card?.price}</p>
           <p>{card?.client_name}</p>
-          <p>{DateFormat(card?.created_at, 'H:i d.m.Y')}</p>
+          <div className='flex items-center justify-between'>
+            <p>{DateFormat(card?.created_at, 'H:i d.m.Y')}</p>
+            <img className='w-4 h-4 rounded-full' src={card?.avatar} alt="avatar"/>
+          </div>
           {isDeleteVisible && (
             <div
               onClick= {(e) => {

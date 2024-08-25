@@ -13,7 +13,7 @@ const Card: FC = () => {
     <>
       <CardTopSection id={id as string}/>
       <CardMiddleSection progress={data?.progress}/>
-      <CardBottomSection />
+      <CardBottomSection card={data ?? {}}/>
     </>
   );
 };

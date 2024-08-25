@@ -3,7 +3,7 @@ import {
   useGetProductsQuery,
   useAddProductMutation,
   useDeleteProductMutation,
-} from "@store/api/productsApi";
+} from "@store/api/productApi";
 import { ViewContext } from "@context";
 import { IError } from "@interfaces";
 

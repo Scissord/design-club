@@ -14,17 +14,32 @@ export const boardApi = createApi({
       }),
       providesTags: ['Board'],
     }),
+    moveCard: build.mutation({
+      query: (body) => ({
+        method: 'PATCH',
+        url: `/cards/${body.cardId}/move`,
+        body
+      }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(boardApi.util.invalidateTags(['Board', 'Card']));
+        } catch (error) {
+          console.error('Error in moveCard mutation:', error);
+        }
+      },
+    }),
     getCard: build.query({
       query: (id: string) => ({
         method: 'GET',
-        url: `/board/${id}`,
+        url: `/cards/${id}`,
       }),
-      providesTags: (result, error, id) => [{ type: 'Card', id }],
+      providesTags: ['Card'],
     }),
     createCard: build.mutation({
       query: ({ columnId, body }: { columnId: string; body: IAddCardForm }) => ({
         method: 'POST',
-        url: `/board/${columnId}`,
+        url: `/cards/${columnId}`,
         body
       }),
       invalidatesTags: ['Board']
@@ -32,23 +47,20 @@ export const boardApi = createApi({
     deleteCard: build.mutation({
       query: ({ cardId, columnId }: { cardId: string, columnId: string }) => ({
         method: 'DELETE',
-        url: `/board/${cardId}`,
+        url: `/cards/${cardId}`,
         body: {
           column_id: columnId
         }
       }),
       invalidatesTags: ['Board']
     }),
-    moveCard: build.mutation({
-      query: (body) => ({
+    updateCardItem: build.mutation({
+      query: ({ id, body }: { id: number, body: { progress: number } }) => ({
         method: 'PATCH',
-        url: `/board/${body.cardId}`,
+        url: `/cardItems/${id}`,
         body
       }),
-      invalidatesTags: (result, error, { cardId }) => [
-        'Board',
-        { type: 'Card', id: cardId }
-      ],
+      invalidatesTags: ['Card'],
     }),
   })
 });
@@ -58,5 +70,6 @@ export const {
   useGetCardQuery,
   useCreateCardMutation,
   useDeleteCardMutation,
-  useMoveCardMutation
+  useMoveCardMutation,
+  useUpdateCardItemMutation
 } = boardApi;

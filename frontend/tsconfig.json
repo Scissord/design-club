@@ -41,6 +41,7 @@
       "@context": ["context/lib"],
       "@utils": ["utils/lib"],
       "@validation": ["validation/lib"],
+      "@axios": ["axios/config"],
     }
   },
   "include": [

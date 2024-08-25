@@ -1,3 +1,5 @@
+import { IProduct } from "@interfaces";
+
 export type ICard = {
   id: string;
   price: number;
@@ -5,4 +7,7 @@ export type ICard = {
   source_name: string;
   column_id: string;
   created_at: Date;
+  avatar: string;
+  creator_name: string;
+  items: IProduct[];
 };

@@ -30,9 +30,15 @@ export default defineConfig({
       "@store": path.resolve(__dirname, 'src/store'),
       "@context": path.resolve(__dirname, 'src/context/lib'),
       "@validation": path.resolve(__dirname, 'src/validation/lib'),
+      "@axios": path.resolve(__dirname, 'src/axios/config'),
     },
   },
   define: {
     "process.env": {},
-  }
+  },
+  // server: {
+  //   proxy: {
+  //     '/api': 'http://localhost:8080'
+  //   }
+  // },
 });

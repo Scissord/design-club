@@ -1,33 +1,33 @@
-import {
-  useGetColumnsQuery,
-  useCreateCardMutation,
-  useDeleteCardMutation,
-  useMoveCardMutation
-} from '@store/api/boardApi';
+import axios from '@axios';
 import { IAddCardForm, IBoard, IError } from '@interfaces';
 import { useContext, useEffect, useState } from 'react';
 import { ViewContext } from '@context';
 import { DropResult } from '@hello-pangea/dnd';
+import { useSelector } from 'react-redux';
+import { getAccessToken } from '@store/reducers/authSlice';
 
 export const useBoard = () => {
   const context = useContext(ViewContext);
-
-  const { data = {}, isLoading: isGetLoading, isSuccess } = useGetColumnsQuery({});
-  const [moveCard] = useMoveCardMutation();
-  const [deleteCard] = useDeleteCardMutation();
-  const [createCard, { isError, isLoading }] = useCreateCardMutation();
+  const accessToken = useSelector(getAccessToken);
 
   const [board, setBoard] = useState<IBoard>({
     columns: {},
     cards: {},
     order: [],
   });
+  const [isCreateLoading, setIsCreateLoading] = useState<boolean>(false);
+  const [isCreateError, setIsCreateError] = useState<boolean>(false);
 
   useEffect(() => {
-    if(data && isSuccess) {
-      setBoard(data)
-    }
-  }, [isSuccess, data]);
+    getBoard();
+  }, [])
+
+  const getBoard = async () => {
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8080/api/board`,
+    }).then((res) => setBoard(res.data));
+  };
 
   const onDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
@@ -62,14 +62,18 @@ export const useBoard = () => {
         },
       });
 
-      // Отправка обновленных данных на сервер
-      await moveCard({
-        cardId: draggableId,
-        sourceColumnId: startColumn.id,
-        destinationColumnId: startColumn.id,
-        sourceIndex: source.index,
-        destinationIndex: destination.index,
-      }).unwrap();
+      await axios({
+        method: 'PATCH',
+        url: `http://localhost:8080/api/cards/${draggableId}/move`,
+        data: {
+          cardId: draggableId,
+          sourceColumnId: startColumn.id,
+          destinationColumnId: startColumn.id,
+          sourceIndex: source.index,
+          destinationIndex: destination.index,
+        },
+        withCredentials: true,
+      })
 
       return;
     }
@@ -97,22 +101,34 @@ export const useBoard = () => {
       },
     });
 
-    // Отправка обновленных данных на сервер
-    await moveCard({
-      cardId: draggableId,
-      sourceColumnId: startColumn.id,
-      destinationColumnId: finishColumn.id,
-      sourceIndex: source.index,
-      destinationIndex: destination.index,
-    }).unwrap();
-
+    await axios({
+      method: 'PATCH',
+      url: `http://localhost:8080/api/cards/${draggableId}/move`,
+      data: {
+        cardId: draggableId,
+        sourceColumnId: startColumn.id,
+        destinationColumnId: finishColumn.id,
+        sourceIndex: source.index,
+        destinationIndex: destination.index,
+      },
+      withCredentials: true,
+    })
   };
 
   const handleCreateCard = async (columnId: string, data: IAddCardForm) => {
+    setIsCreateLoading(true);
+    setIsCreateError(false);
     try {
-      await createCard({ columnId, body: data  }).unwrap();
-      context?.modal.hide();
+      await axios({
+        method: 'POST',
+        url: `http://localhost:8080/api/cards/${columnId}`,
+        data,
+      }).then(() => {
+        setIsCreateLoading(false);
+        context?.modal.hide();
+      })
     } catch (error) {
+      setIsCreateError(true);
       const typedError = error as IError;
       context?.notification.show(typedError?.data?.error || 'An error occurred', 'error');
     }
@@ -122,7 +138,17 @@ export const useBoard = () => {
     const confirm = window.confirm('Are you sure?');
     if(confirm) {
       try {
-        await deleteCard({ cardId: id, columnId }).unwrap();
+        await axios({
+          method: 'DELETE',
+          url: `http://localhost:8080/api/cards/${id}`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          },
+          data: {
+            column_id: columnId
+          },
+          withCredentials: true,
+        })
       } catch (error) {
         const typedError = error as IError;
         context?.notification.show(typedError?.data?.error || 'An error occurred', 'error');
@@ -135,8 +161,7 @@ export const useBoard = () => {
     onDragEnd,
     handleDeleteCard,
     handleCreateCard,
-    isGetLoading,
-    isCreateLoading: isLoading,
-    isCreateError: isError,
+    isCreateLoading,
+    isCreateError
   };
 };

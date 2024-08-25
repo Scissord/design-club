@@ -4,7 +4,7 @@ import { parseJson } from '@utils';
 
 type PrivateRouteTypes = {
   children: ReactNode
-}
+};
 
 export const PrivateRoute = (props: PrivateRouteTypes) => {
   const { children } = props;
