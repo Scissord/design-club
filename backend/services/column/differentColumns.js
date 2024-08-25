@@ -22,9 +22,9 @@ export default async function differentColumns(
 
   await Column.update(destinationColumnId, {
     cards_ids: updatedDestinationTaskIds,
-  })
+  });
 
   await Card.update(cardId, {
     column_id: destinationColumnId
-  })
+  });
 };

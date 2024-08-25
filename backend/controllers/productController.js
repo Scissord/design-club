@@ -1,4 +1,15 @@
-import * as Product from "../models/product.js"
+import * as Product from "../models/product.js";
+import * as CardItem from "../models/card_item.js";
+
+export const getAll = async (req, res) => {
+	try {
+    const products = await Product.getAll();
+		res.status(200).send(products);
+	}	catch (err) {
+		console.log("Error in get product controller", err.message);
+		res.status(500).send({ error: "Internal Server Error" });
+	}
+};
 
 export const get = async (req, res) => {
 	try {
@@ -6,16 +17,6 @@ export const get = async (req, res) => {
     const { products, lastPage } = await Product.get(limit, page, search);
 
 		res.status(200).send({ products, lastPage });
-	}	catch (err) {
-		console.log("Error in get product controller", err.message);
-		res.status(500).send({ error: "Internal Server Error" });
-	}
-};
-
-export const getAll = async (req, res) => {
-	try {
-    const products = await Product.getAll();
-		res.status(200).send(products);
 	}	catch (err) {
 		console.log("Error in get product controller", err.message);
 		res.status(500).send({ error: "Internal Server Error" });
@@ -41,4 +42,4 @@ export const softDelete = async (req, res) => {
     console.log("Error in delete product controller", err.message);
     res.status(400).send({ error: "Invalid request payload" });
   }
-}
+};

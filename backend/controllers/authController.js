@@ -39,21 +39,19 @@ export const signup = async (req, res) => {
     })
 
 		if(newUser) {
-			// generate JWT TOKEN
 			const { accessToken, refreshToken } = generateTokens(newUser.id);
 
-			// save refreshToken in DB
       await UserToken.create({
         user_id: newUser.id,
         refresh_token: refreshToken,
-        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 дней
+        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
       });
 
       res.cookie("refreshToken", refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 дней
-        httpOnly: true, // Защищает от XSS атак
-        sameSite: "strict", // Защита от CSRF атак
-        secure: process.env.NODE_ENV === "production" // Только в производственной среде
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        httpOnly: true, // XSS
+        sameSite: "strict", // CSRF
+        secure: process.env.NODE_ENV === "production"
       });
 
 			return res.status(201).send({

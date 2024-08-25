@@ -12,28 +12,32 @@ export const seed = async function(knex) {
       price: 5000,
       client_id: 1,
       source_id: 1,
-      column_id: '27725dd5-60cd-4bd7-b419-2bec43e0c922',
+      column_id: 1,
+      creator_id: 33
     },
     {
       id: 2,
       price: 20.52,
       client_id: 2,
       source_id: 1,
-      column_id: '27725dd5-60cd-4bd7-b419-2bec43e0c922',
+      column_id: 1,
+      creator_id: 33
     },
     {
       id: 3,
       price: 6000,
       client_id: 3,
       source_id: 2,
-      column_id: '6030aa47-2ca3-471c-8f30-a823fa8f3720',
+      column_id: 2,
+      creator_id: 33
     },
     {
       id: 4,
       price: Number(65,84),
       client_id: 2,
       source_id: 1,
-      column_id: '6030aa47-2ca3-471c-8f30-a823fa8f3720',
+      column_id: 2,
+      creator_id: 33
     },
   ]);
 };

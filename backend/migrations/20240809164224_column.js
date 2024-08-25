@@ -5,7 +5,7 @@
 export const up = function(knex) {
   return knex.schema
     .createTable('column', (table) => {
-      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
+      table.bigIncrements('id').primary()
       table.string('title').notNullable();
       table.specificType('cards_ids', 'TEXT[]').defaultTo(knex.raw('ARRAY[]::TEXT[]'));
       table.integer('position').notNullable();

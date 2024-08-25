@@ -10,27 +10,27 @@ const protectRoute = async (req, res, next) => {
 
     let decoded;
     try {
-      decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+      decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
     } catch (err) {
       if (err.name === 'TokenExpiredError') {
-        // If token is expired, verify the refresh token
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) return res.status(401).send({
           error: "Unauthorized - No Refresh Token Provided"
         });
         try {
-          const decodedRefresh = jwt.verify(refreshToken, process.env.JWT_SECRET);
+          const decodedRefresh = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 
           const user = await User.find(decodedRefresh.userId);
           if (!user) return res.status(401).send({ error: "User not found" });
 
           const newAccessToken = jwt.sign(
             { userId: user.id },
-            process.env.JWT_SECRET,
-            { expiresIn: '30m' }
+            process.env.JWT_ACCESS_SECRET,
+            { expiresIn: process.env.JWT_ACCESS_LIFE_TIME }
           );
 
-          decoded = jwt.verify(newAccessToken, process.env.JWT_SECRET);
+          decoded = jwt.verify(newAccessToken, process.env.JWT_ACCESS_SECRET);
+
           return res.status(401).send({ accessToken: newAccessToken });
         } catch (refreshError) {
           return res.status(401).send({ error: "Unauthorized - Invalid Refresh Token" });

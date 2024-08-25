@@ -7,14 +7,11 @@ export const up = function(knex) {
     .createTable('product', (table) => {
       table.bigIncrements("id").primary();
       table.string("name", 50).nullable();
-      table.string("job", 50).nullable();
-      table.string("company", 50).nullable();
-      table.string("location", 50).nullable();
-      table.timestamp("lastLogin").defaultTo(knex.fn.now());
-      table.string("favoriteColor", 50).nullable();
-      table.timestamp("created_at").defaultTo(knex.fn.now());
-      table.timestamp("updated_at").defaultTo(knex.fn.now());
-      table.timestamp("deleted_at").defaultTo(null);
+      table.decimal('price', 15, 2).notNullable();
+
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
+      table.timestamp('deleted_at').defaultTo(null);
     });
 };
 
