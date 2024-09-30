@@ -1,6 +1,6 @@
 export type IError = {
   data?: {
-    error: string;
+    error: string | "";
   };
-  message?: string;
+  message?: string | "";
 };

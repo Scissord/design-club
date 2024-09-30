@@ -1,139 +1,73 @@
-import { FC, useContext, useState } from 'react';
-import { ViewContext } from '@context';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { FC } from 'react';
+import { IAddProductForm } from '@interfaces';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { addProductSchema } from '@validation';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FormButtons } from '@components';
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+import Price from './AddProduct/Price';
+import Name from './AddProduct/Name';
 
 type AddProductProps = {
   handleCreateProduct: (data: IAddProductForm) => void;
-  isCreateLoading: boolean;
-  isCreateError: boolean;
+  isLoading: boolean;
+  isError: boolean;
 };
 
-const DEFAULT_NEW_PRODUCT = {
-  name: '',
-  job: '',
-  company: '',
-  location: '',
-  favoriteColor: '',
-  lastLogin: new Date(),
-}
-
 const AddProduct: FC<AddProductProps> = (props) => {
+  const { handleCreateProduct, isLoading, isError } = props;
+
   const {
-    handleCreateProduct,
-    isCreateLoading,
-    isCreateError
-  } = props;
-  const context = useContext(ViewContext);
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<IAddProductForm>({
+    mode: "onBlur",
+    resolver: yupResolver(addProductSchema),
+    defaultValues: {
+      name: "",
+      price: 0,
+    },
+  });
 
-  const [newProduct, setNewProduct] = useState(DEFAULT_NEW_PRODUCT);
-
-
-  const handleResetProduct = () => {
-    setNewProduct(DEFAULT_NEW_PRODUCT);
-  };
-
-  const onSubmit = async () => {
-    handleCreateProduct(newProduct);
+  const onSubmit: SubmitHandler<IAddProductForm> = async (data) => {
+    handleCreateProduct(data);
   };
 
   return (
-    <div className='grid grid-cols-3 gap-3 w-full py-6'>
-      <div className='col-span-1'>
-        <p className='font-bold text-[18px]'>lastLogin</p>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid grid-cols-3 gap-3 w-full"
+    >
+      <Name
+        register={register}
+        errors={errors}
+      />
+      <Price
+        register={register}
+        errors={errors}
+      />
+      <div className='col-span-3'>
+        {isError && <div className="text-red-500">Request failed. Please try again.</div>}
       </div>
-      <div className='col-span-2'>
-        <DatePicker
-          selected={newProduct.lastLogin}
-          className='input input-bordered input-secondary'
-          onChange={(date) => {
-            date && setNewProduct({ ...newProduct, lastLogin: date });
-          }}
-        />
-      </div>
-
-      <div className='col-span-1'>
-        <p className='font-bold text-[18px]'>Name</p>
-      </div>
-      <div className='col-span-2'>
-        <input
-          value={newProduct.name}
-          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered input-secondary w-full"
-        />
-      </div>
-
-      <div className='col-span-1'>
-        <p className='font-bold text-[18px]'>Job</p>
-      </div>
-      <div className='col-span-2'>
-        <input
-          value={newProduct.job}
-          onChange={(e) => setNewProduct({ ...newProduct, job: e.target.value })}
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered input-secondary w-full"
-        />
-      </div>
-
-      <div className='col-span-1'>
-        <p className='font-bold text-[18px]'>Company</p>
-      </div>
-      <div className='col-span-2'>
-        <input
-          value={newProduct.company}
-          onChange={(e) => setNewProduct({ ...newProduct, company: e.target.value })}
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered input-secondary w-full"
-        />
-      </div>
-
-      <div className='col-span-1'>
-        <p className='font-bold text-[18px]'>Location</p>
-      </div>
-      <div className='col-span-2'>
-        <input
-          value={newProduct.location}
-          onChange={(e) => setNewProduct({ ...newProduct, location: e.target.value })}
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered input-secondary w-full"
-        />
-      </div>
-
-      <div className='col-span-1'>
-        <p className='font-bold text-[18px]'>Favorite Color</p>
-      </div>
-      <div className='col-span-2'>
-        <input
-          value={newProduct.favoriteColor}
-          onChange={(e) => setNewProduct({ ...newProduct, favoriteColor: e.target.value })}
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered input-secondary w-full"
-        />
-      </div>
-
-
-      <div className='col-span-3 flex items-center gap-3 ml-auto mt-6'>
-        <button
-          onClick={() => onSubmit()}
-          className="btn btn-success text-white"
-        >
-          Success
-        </button>
-        <button
-          onClick={() => handleResetProduct()}
-          className="btn btn-error text-white"
-        >
-          Reset
-        </button>
-      </div>
-    </div>
+      <FormButtons
+        isLoading={isLoading}
+        secondButtonFunction={reset}
+      />
+    </form>
   )
 }
 
 export default AddProduct;
+
+{/* <div className='col-span-2'>
+  <DatePicker
+    selected={newProduct.lastLogin}
+    className='input input-bordered input-secondary'
+    onChange={(date) => {
+      date && setNewProduct({ ...newProduct, lastLogin: date });
+    }}
+  />
+</div> */}

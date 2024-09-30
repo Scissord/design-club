@@ -11,14 +11,20 @@ import { ViewContext } from "@context";
 import { signUpFormSchema } from "@validation";
 
 const css = {
-  container: `flex w-[80%] lg:w-[60%] h-[80vh] lg:h-[70vh] border border-gray-300
-              dark:border-neutral-200 rounded-xl shadow-2xl
-              shadow-neutral-400 dark:shadow-none`,
-  left_section: `hidden xl:flex items-center justify-center w-1/2
-                border-r border-gray-300 dark:border-neutral-200
-                h-full rounded-xl`,
-  right_section: `w-full xl:w-1/2 h-full flex flex-col items-center
-                justify-between py-6 lg:py-12`,
+  container: `
+    flex w-[80%] lg:w-[60%] h-[80vh] lg:h-[70vh] border border-gray-300
+    dark:border-neutral-200 rounded-xl shadow-2xl
+    shadow-neutral-400 dark:shadow-none
+  `,
+  left_section: `
+    hidden xl:flex items-center justify-center w-1/2
+    border-r border-gray-300 dark:border-neutral-200
+    h-full rounded-xl
+  `,
+  right_section: `
+    w-full xl:w-1/2 h-full flex flex-col items-center
+    justify-between py-6 lg:py-12
+  `,
 };
 
 const SignUp: FC = () => {
@@ -41,11 +47,10 @@ const SignUp: FC = () => {
       dispatch(setAccessToken(user.accessToken));
       navigate('/login');
       reset();
-      // Handle successful signup, e.g., redirect to login page or show a success message
     } catch (error) {
       const typedError = error as IError;
       context?.notification.show(typedError?.data?.error || typedError.message || 'An error occurred', 'error');
-    }
+    };
   };
 
   return (
@@ -65,7 +70,6 @@ const SignUp: FC = () => {
             <input
               type="text"
               className="grow w-full"
-              // value={"scissxrd"}
               placeholder="Username"
               {...register("name")}
             />
@@ -76,7 +80,6 @@ const SignUp: FC = () => {
             <input
               type="text"
               className="grow w-full"
-              // value={"+77762643168"}
               placeholder="Phone"
               {...register("phone")}
             />

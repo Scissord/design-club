@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { IAddCardForm } from '@interfaces';
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDealSchema } from '@validation';
-
+import { addCardSchema } from '@validation';
+import { FormButtons } from '@components';
 import Price from './AddCard/Price';
 import Source from './AddCard/Source';
 import Client from './AddCard/Client';
@@ -27,7 +27,7 @@ const AddCardModal: FC<AddDealProps> = (props) => {
     handleSubmit,
   } = useForm<IAddCardForm>({
     mode: "onBlur",
-    resolver: yupResolver(addDealSchema),
+    resolver: yupResolver(addCardSchema),
     defaultValues: {
       price: 0,
       source_id: "1",
@@ -62,21 +62,10 @@ const AddCardModal: FC<AddDealProps> = (props) => {
       <div className='col-span-3'>
         {isError && <div className="text-red-500">Request failed. Please try again.</div>}
       </div>
-      <div className='col-span-3 flex items-center gap-3 ml-auto'>
-        <button
-          type="submit"
-          className="btn btn-success text-white"
-          disabled={isLoading}
-        >
-          {isLoading ? "Success..." : "Success"}
-        </button>
-        <button
-          onClick={() => reset()}
-          className="btn btn-error text-white"
-        >
-          Reset
-        </button>
-      </div>
+      <FormButtons
+        isLoading={isLoading}
+        secondButtonFunction={reset}
+      />
     </form>
   )
 }

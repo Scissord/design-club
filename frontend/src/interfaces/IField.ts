@@ -1,4 +1,4 @@
 export type IField = {
-  header: string,
+  header: string | "",
   render: (item: any) => JSX.Element;
 };

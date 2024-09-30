@@ -1,12 +1,12 @@
 import { FC, useContext } from 'react';
 import { ViewContext } from '@context';
-import { ICard, IError } from '@interfaces';
-import { useUpdateCardItemMutation } from '@store/api/boardApi';
+import { ICard } from '@interfaces';
 import LeftBottomCard from './CardBottomSection/LeftBottomCard';
 import RightBottomCard from './CardBottomSection/RightBottomCard';
 
 type CardBottomSectionProps = {
   card: ICard;
+  handleUpdateCardItem: (card_item_id: number, progress: number) => void;
 };
 
 const css = {
@@ -25,20 +25,7 @@ const css = {
   `,
 };
 
-const CardBottomSection: FC<CardBottomSectionProps> = ({ card }) => {
-  const context = useContext(ViewContext);
-
-  const [updateProduct] = useUpdateCardItemMutation();
-
-  const handleUpdateProduct = async (card_item_id: number, progress: number) => {
-    try {
-      await updateProduct({ id: card_item_id, body: { progress } });
-    } catch (error) {
-      const typedError = error as IError;
-      context?.notification.show(typedError?.data?.error || typedError.message || 'An error occurred', 'error');
-    }
-  };
-
+const CardBottomSection: FC<CardBottomSectionProps> = ({ card, handleUpdateCardItem }) => {
   return (
     <section className={css.bottom_section}>
       <LeftBottomCard
@@ -46,7 +33,7 @@ const CardBottomSection: FC<CardBottomSectionProps> = ({ card }) => {
       />
       <RightBottomCard
         card={card}
-        handleUpdateProduct={handleUpdateProduct}
+        handleUpdateCardItem={handleUpdateCardItem}
       />
     </section>
   )

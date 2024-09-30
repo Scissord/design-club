@@ -1,5 +1,5 @@
 import axios from '@axios';
-import { IAddCardForm, IBoard, IError } from '@interfaces';
+import { IAddCardForm, IBoard, IColumn, IError } from '@interfaces';
 import { useContext, useEffect, useState } from 'react';
 import { ViewContext } from '@context';
 import { DropResult } from '@hello-pangea/dnd';
@@ -30,19 +30,31 @@ export const useBoard = () => {
   };
 
   const onDragEnd = async (result: DropResult) => {
-    const { destination, source, draggableId } = result;
+    const { destination, source, draggableId, type } = result;
 
     if (!destination) return;
+
+
 
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
       return;
-    }
+    };
 
-    const startColumn = board.columns[source.droppableId];
-    const finishColumn = board.columns[destination.droppableId];
+    if (type === "column") {
+      const newColumnOrder = Array.from(board.order);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      setBoard({ ...board, order: newColumnOrder });
+      return;
+    };
+
+    const startColumn = (board.columns as { [key: string]: IColumn })[source.droppableId];
+    const finishColumn = (board.columns as { [key: string]: IColumn })[destination.droppableId];
+
 
     if (startColumn === finishColumn) {
       const newCardIds = Array.from(startColumn.cardsIds);

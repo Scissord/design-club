@@ -4,7 +4,6 @@ import themeReducer from './reducers/themeSlice';
 import sidebarReducer from './reducers/sidebarSlice';
 import { authApi } from './api/authApi';
 import { productApi } from './api/productApi';
-import { boardApi } from './api/boardApi';
 import { sourceApi } from './api/sourceApi';
 import { clientApi } from './api/clientApi';
 
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   // rtk-query endpoints
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
-  [boardApi.reducerPath]: boardApi.reducer,
   [sourceApi.reducerPath]: sourceApi.reducer,
   [clientApi.reducerPath]: clientApi.reducer,
 });
@@ -28,7 +26,6 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(
         productApi.middleware,
-        boardApi.middleware,
         sourceApi.middleware,
         clientApi.middleware,
       ),

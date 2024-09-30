@@ -1,2 +1,3 @@
 export { signUpFormSchema } from './signUpSchema';
-export { addDealSchema } from './addDealSchema';
+export { addCardSchema } from './addCardSchema';
+export { addProductSchema } from './addProductSchema';

@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const addDealSchema = Yup.object().shape({
+export const addCardSchema = Yup.object().shape({
   price: Yup.number()
     .typeError('Цена должна быть числом')
     .positive('Цена должна быть больше 0')

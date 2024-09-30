@@ -3,7 +3,7 @@ import { ICard } from '@interfaces';
 
 type RightBottomCardProps = {
   card: ICard;
-  handleUpdateProduct: (card_item_id: number, progress: number) => void;
+  handleUpdateCardItem: (card_item_id: number, progress: number) => void;
 };
 
 const css = {
@@ -16,7 +16,7 @@ const css = {
 const sections = [1, 2, 3, 4];
 
 const RightBottomCard: FC<RightBottomCardProps> = (props) => {
-  const { card, handleUpdateProduct } = props;
+  const { card, handleUpdateCardItem } = props;
 
   return (
     <div className={css.right_card}>
@@ -31,7 +31,7 @@ const RightBottomCard: FC<RightBottomCardProps> = (props) => {
               {sections.map((_, index) => (
                 <li
                   key={_}
-                  onClick={() => handleUpdateProduct(item?.card_item_id, _)}
+                  onClick={() => handleUpdateCardItem(item?.card_item_id, _)}
                   className={`
                     step cursor-pointer
                     ${index < item?.progress ? 'step-primary' : ''}

@@ -1,4 +1,4 @@
-export function DateFormat(date: string | Date, format: string = 'd.m.Y'): string {
+export function DateFormat(date: Date | null | "", format: string = 'd.m.Y'): string {
 
   if (date === null || date === undefined || date === '') return ''
 

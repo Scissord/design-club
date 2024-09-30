@@ -6,5 +6,6 @@ export { Button } from './Button/Button';
 export { Pagination } from './Pagination/Pagination';
 export { Table } from './Table/Table';
 // FORM
+export { FormTextInput } from './Form/TextInput/TextInput';
 export { FormNumberInput } from './Form/NumberInput/NumberInput';
 export { FormSelect } from './Form/Select/Select';

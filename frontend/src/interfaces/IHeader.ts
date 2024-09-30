@@ -1,4 +1,4 @@
 export type IHeader = {
-  value: number;
-  label: string;
+  value: number | null;
+  label: string | "";
 };

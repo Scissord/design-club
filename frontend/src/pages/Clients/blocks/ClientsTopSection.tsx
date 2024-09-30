@@ -2,17 +2,17 @@ import { FC, useContext } from 'react'
 import { ViewContext } from '@context';
 import { Search, Select, Button } from '@ui';
 import { limits } from '@constants';
-import { IAddProductForm } from '@interfaces';
-import AddProduct from '../modals/AddProduct';
+import { IAddClientForm } from '@interfaces';
+import AddClient from '../modals/AddClient';
 
-type ProductsTopSectionProps = {
+type ClientsTopSectionProps = {
   limit: number;
   setLimit: (limit: number) => void;
   search: string;
   setSearch: (text: string) => void;
   setPage: (page: number) => void;
   isGetLoading: boolean;
-  handleCreateProduct: (data: IAddProductForm) => void;
+  handleCreateClient: (data: IAddClientForm) => void;
   isCreateLoading: boolean;
   isCreateError: boolean;
 };
@@ -23,12 +23,12 @@ const css = {
   `
 };
 
-const ProductsTopSection: FC<ProductsTopSectionProps> = (props) => {
+const ClientsTopSection: FC<ClientsTopSectionProps> = (props) => {
   const {
     limit, setLimit,
     search, setSearch,
     setPage, isGetLoading,
-    handleCreateProduct,
+    handleCreateClient,
     isCreateLoading,
     isCreateError,
   } = props;
@@ -38,10 +38,10 @@ const ProductsTopSection: FC<ProductsTopSectionProps> = (props) => {
   const handleOpenAddProductModal = () => {
     context?.modal.show({
       title: 'Add Product',
-      children: <AddProduct
-        handleCreateProduct={handleCreateProduct}
-        isLoading={isCreateLoading}
-        isError={isCreateError}
+      children: <AddClient
+        handleCreateClient={handleCreateClient}
+        isCreateLoading={isCreateLoading}
+        isCreateError={isCreateError}
       />
     })
   };
@@ -70,4 +70,4 @@ const ProductsTopSection: FC<ProductsTopSectionProps> = (props) => {
   )
 }
 
-export default ProductsTopSection
+export default ClientsTopSection;

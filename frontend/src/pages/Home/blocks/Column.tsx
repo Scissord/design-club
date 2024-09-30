@@ -1,5 +1,5 @@
 import { FC, Fragment, useContext } from 'react'
-import { IAddCardForm, IBoard, ICard } from '@interfaces';
+import { IAddCardForm, IBoard, ICard, IColumn } from '@interfaces';
 import { ViewContext } from '@context';
 import { Droppable } from '@hello-pangea/dnd';
 import AddCardModal from '../modals/AddCard';
@@ -42,10 +42,10 @@ const Column: FC<ColumnProps> = (props) => {
 
   const context = useContext(ViewContext);
 
-  const column = board.columns[columnId];
+  const column = (board.columns as { [key: string]: IColumn })[columnId];
   const cards = column.cardsIds
-    .map((cardId: string) => board.cards[cardId])
-    .filter((card: ICard)  => card);
+    .map((cardId: string) => (board.cards as { [key: string]: ICard })[cardId])
+    .filter((card: ICard) => card);
 
   const handleOpenAddDealModal = (columnId: string) => {
     context?.modal.show({

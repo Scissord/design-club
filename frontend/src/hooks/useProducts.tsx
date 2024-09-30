@@ -5,7 +5,7 @@ import {
   useDeleteProductMutation,
 } from "@store/api/productApi";
 import { ViewContext } from "@context";
-import { IError } from "@interfaces";
+import { IAddProductForm, IError } from "@interfaces";
 
 export const useProducts = () => {
   const context = useContext(ViewContext);
@@ -15,8 +15,8 @@ export const useProducts = () => {
   const [search, setSearch] = useState<string>("");
 
   const { data = [], isLoading } = useGetProductsQuery({ limit, page, search });
-  const [addProduct] = useAddProductMutation();
-  const [deleteProduct, { isError, isLoading: isCreateLoading }] = useDeleteProductMutation();
+  const [addProduct, { isError, isLoading: isCreateLoading }] = useAddProductMutation();
+  const [deleteProduct] = useDeleteProductMutation();
 
   const handleDeleteProduct = async (id: string) => {
     const confirm = window.confirm("Are you sure you want to delete this product?");

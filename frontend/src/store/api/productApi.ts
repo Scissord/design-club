@@ -1,12 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { IProduct } from '@interfaces';
+import { IGetQueryParams, IProduct } from '@interfaces';
 import baseQueryWithReAuth from '@store/middleware/authMiddleware';
-
-interface GetProductsQueryParams {
-  limit?: number;
-  page?: number;
-  search?: string;
-}
 
 export const productApi = createApi({
   reducerPath: 'productApi',
@@ -14,7 +8,7 @@ export const productApi = createApi({
   tagTypes: ['Products'],
   endpoints: (build) => ({
     getProducts: build.query({
-      query: ({ limit, page, search }: GetProductsQueryParams) => {
+      query: ({ limit, page, search }: IGetQueryParams) => {
         const params = new URLSearchParams();
         if (limit) params.append('limit', limit.toString());
         if (page) params.append('page', page.toString());
@@ -25,7 +19,7 @@ export const productApi = createApi({
       providesTags: (result) => {
         if (result.products) {
           return [
-            ...result?.products.map(({ id }: IProduct) => ({ type: 'Products', id })),
+            ...result.products.map(({ id }: IProduct) => ({ type: 'Products', id })),
             { type: 'Products', id: 'LIST' }
           ]
         } else {

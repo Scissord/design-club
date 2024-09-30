@@ -1,4 +1,4 @@
-export const productsHeaders = [
+export const clientsHeaders = [
   {
     value: 0,
     label: '',
@@ -9,14 +9,18 @@ export const productsHeaders = [
   },
   {
     value: 2,
-    label: 'Price',
+    label: 'Created_At',
   },
   {
     value: 3,
-    label: '',
+    label: 'Updated_At',
   },
   {
     value: 4,
+    label: '',
+  },
+  {
+    value: 5,
     label: '',
   },
 ]

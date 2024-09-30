@@ -1,4 +1,4 @@
 export type IOption = {
-  value: string;
-  label: string;
+  value: string | "";
+  label: string | "";
 };

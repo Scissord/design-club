@@ -12,6 +12,9 @@ export { SideNavbarLogo } from './Sidebar/SideNavbarLogo/SideNavbarLogo';
 export { Toaster } from './Toaster/Toaster';
 export { Modal } from './Modal/Modal';
 
+// form
+export { FormButtons } from './FormButtons/FormButtons';
+
 // pages
 // export { DraggableCard } from './DraggableCard/DraggableCard';
 // export { DroppableColumn } from './DroppableColumn/DroppableColumn';

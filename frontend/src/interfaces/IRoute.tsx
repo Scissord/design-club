@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
 export type IRoute = {
-	path: string;
+	path: string | "";
 	element: FC;
-	layout: string,
-	title: string,
+	layout: string | "",
+	title: string | "",
 }
