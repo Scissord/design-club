@@ -8,7 +8,6 @@ const UserPage = lazy(() => import('@pages/User'));
 const ProductsPage = lazy(() => import('@pages/Products'));
 const ClientsPage = lazy(() => import('@pages/Clients'));
 const SourcesPage = lazy(() => import('@pages/Sources'));
-const TestPage = lazy(() => import('@pages/Test'));
 // const ArticlesPage = lazy(() => import('@pages/Articles'));
 // const StoragePage = lazy(() => import('@pages/Storage'));
 
@@ -48,12 +47,6 @@ const AppRoutes: IRoute[] = [
 		element: CW(SourcesPage),
 		layout: "app",
 		title: "Sources",
-	},
-  {
-		path: "/test",
-		element: CW(TestPage),
-		layout: "app",
-		title: "Test",
 	},
   // {
 	// 	path: "/articles",
