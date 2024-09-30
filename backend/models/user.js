@@ -46,6 +46,7 @@ export const findOne = async function (query) {
       else {
         queryBuilder.where('name', query);
       }
+      queryBuilder.where('name', query);
     })
     .first();
 };
